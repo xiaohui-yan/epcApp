@@ -143,7 +143,7 @@ window.epc = {
 					subgridname:'taskhistory',
 					_projectid:-1
 				},
-				grid:[1,2,4,5],
+				grid:[1,2,3]
 			}],
 			specialField:[{
 				fieldId:'formbean_user01_id',//组件id
@@ -172,12 +172,20 @@ window.epc = {
 		},
 		
 	},
+	
+	
 	task:{//流程
-		
 		btn:{
-			new:'请假请申',
-			view:'请假单',
-			edit:'请假单',
+			view:{
+				title:'我的待办',
+				formname:'workflow',
+				componentid:'dailyLeave.dailyLeave.dailyLeave_check_bmjl',
+				processinsid:'wfinfo=emp_dailyLeave,dailyLeave_bmjl,9',
+				btn:[{
+					title:'提交',
+					fns:'close_fn'
+				}]
+			}, 
 		},
 		list:{
 			extensionid:'com.epc.epcfoundation.extensions.ui.grid',
@@ -187,23 +195,24 @@ window.epc = {
 		},
 		form:{
 			tabList:[{
-				name:'表单信息',
+				title:'表单信息',
 				active:true,
 				show:true,
-				method:'loadForm',
+				tempUrl:'../form/form.html',
 				action:{
 					extensionid:'com.epc.epcfoundation.extensions.ui.form2',
-					functionpointid:'com.epc.epcfoundation.base.tasklist',
-					formname:'workflow',
+					functionpointid:'com.epc.epcdoc.custom.cusdocclassfunctionpoint',
+					functiongroupid	:'402880b13c7fb7a6013c8074eacc0018',
 				},
 			},{
-				name:'流程历史',
+				title:'流程历史',
 				active:false,
-				show:false,
-				method:'loadSubList',
+				show:true,
+				tempUrl:'../sub-list/sub-list.html',
 				action:{
 					extensionid:'com.epc.epcfoundation.extensions.ui.grid',
-					functionpointid:'com.epc.epcfoundation.base.tasklist',
+					functionpointid:'com.epc.epcdoc.custom.cusdocclassfunctionpoint',
+					functiongroupid	:'402880b13c7fb7a6013c8074eacc0018',
 					subgridname:'taskhistory',					
 				},
 				grid:[1,2,3]

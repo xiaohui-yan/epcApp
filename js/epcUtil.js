@@ -1,6 +1,7 @@
 window.epcUtil = {
-	//加载表单
-	renderForm:function(point,mainformid,formbtn){
+	//初始化加载数据
+	
+	renderStartFlow:function(){
 		/*tabList = epc[currType].form.tabList;
 		tabList.forEach(function(value){
 			if(value.active == true){
@@ -38,14 +39,19 @@ window.epcUtil = {
 			}
 		});
 		*/
+	},
+	//加载表单
+	renderForm:function(point,mainformid,formbtn){
 		var fields = {};
 		var json = {};
 		var objArr = [];
 		var btnArr = epc[point].btn[formbtn].btn;//获取配置按钮信息
 		var data = epc[point].form.tabList[0].action;
-		data.formname    = epc[point].btn[formbtn].formname;
-		data.componentid = epc[point].btn[formbtn].componentid;
+		data.formname     = epc[point].btn[formbtn].formname;
+		data.componentid  = epc[point].btn[formbtn].componentid;
+		data.processinsid = epc[point].btn[formbtn].processinsid;
 		data.selrowid = mainformid;
+		console.log(JSON.stringify(data));
 		mui.ajax(epc.root+'/extension/extensionAction.action',{
 			data:data,
 			type:'get',//HTTP请求类型
@@ -63,7 +69,7 @@ window.epcUtil = {
 					functiongroupid:el.find('#_functiongroupid').val(),
 					treenodeid:el.find('#_treeNodeId').val(),
 					treeNodeType:el.find('#_treeNodeType').val(),
-					//formname:el.find('#_formname').val(),
+					formname:el.find('#_formname').val(),
 					formsubmit:true,
 					//请假参数
 					actionExtension:'com.epc.epcemp.dailyLeave.startprocess',
@@ -195,8 +201,6 @@ window.epcUtil = {
 	saveForm:function(dialog,point,mainformid,json){
 		dialog.loading.open('保存数据');
 		console.log(JSON.stringify(json));
-		
-		
 		mui.ajax(epc.root+'/extension/extensionAction.action?'+$('#form').serialize(),{
 			data:json,
 			type:'get',//HTTP请求类型

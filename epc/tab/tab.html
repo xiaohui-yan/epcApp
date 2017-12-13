@@ -57,6 +57,7 @@
 		.controller('tabsCtrl',['$scope',function($scope){			
 			$scope.tabs = epc[currType].form.tabList;
 		}]).controller('formCtrl',['$scope',function($scope){
+			alert();
 			var obj = epcUtil.renderForm(currType,mainformid,formbtn);
 			$scope.fields = obj.field;
 			$scope.btns   = obj.btns;
