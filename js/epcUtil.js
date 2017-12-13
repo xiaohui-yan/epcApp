@@ -1,6 +1,6 @@
 window.epcUtil = {
 	//加载表单
-	renderForm:function(point,mainformid){
+	renderForm:function(point,mainformid,formbtn){
 		/*tabList = epc[currType].form.tabList;
 		tabList.forEach(function(value){
 			if(value.active == true){
@@ -41,8 +41,12 @@ window.epcUtil = {
 		var fields = {};
 		var json = {};
 		var objArr = [];
+		var btnArr = epc[point].btn[formbtn].btn;//获取配置按钮信息
+		var data = epc[point].form.tabList[0].action;
+		data.formname = epc[point].btn[formbtn].formname;
+		data.selrowid = mainformid;
 		mui.ajax(epc.root+'/extension/extensionAction.action',{
-			data:epc[point].form.tabList[0].action,
+			data:data,
 			type:'get',//HTTP请求类型
 			dataType:'html',
 			async: false,
@@ -67,6 +71,9 @@ window.epcUtil = {
 					if($(this).attr("uitype") == "INNERSUBGRID")return;
 					var obj = {};
 					obj.title = $(this).find('.text').text(); 
+					if(formbtn == 'view'){
+						obj.readonly = 'true';
+					}
 					obj.must  = $(this).find('.must').text(); 
 					if($(this).find('input').length > 0){//input
 						obj.type = 'text';	
@@ -121,6 +128,7 @@ window.epcUtil = {
 		});
 		fields.field = objArr;
 		fields.json = json;
+		fields.btns = btnArr;
 		return fields;
 	},
 	//加载子表

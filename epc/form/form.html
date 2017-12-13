@@ -7,20 +7,20 @@
 		        	{{field.title}} : &nbsp;
 		        </div>
 		        <div class="cell-right" ng-if='field.type == "text" '>
-		        	<input value='{{field.value}}' name="{{field.name}}" class="cell-input"/>
+		        	<input value='{{field.value}}' name="{{field.name}}" class="cell-input" ng-readonly = '{{field.readonly}}'/>
 		        </div>
 		        <div class="cell-right" ng-if='field.type == "textarea" '>
-		        	<textarea name="{{field.name}}" class="cell-input">{{field.value}}</textarea>
+		        	<textarea name="{{field.name}}" class="cell-input" ng-readonly = '{{field.readonly}}'>{{field.value}}</textarea>
 		        </div>
 		        <div class="cell-right" ng-if='field.type == "DATEPICKER" '>
-		        	<input value='{{field.value}}' data-options= '{"type":"date"}' name="{{field.name}}" class="cell-input H5_date"/>
+		        	<input value='{{field.value}}' data-options= '{"type":"date"}' ng-readonly = '{{field.readonly}}' name="{{field.name}}" class="cell-input H5_date"/>
 		        </div>
 		        <div class="cell-right" ng-if='field.type == "TIMEPICKER" '>
-		        	<input value='{{field.value}}' data-options= '{}' name="{{field.name}}" class="cell-input H5_date"/>
+		        	<input value='{{field.value}}' data-options= '{}' ng-readonly = '{{field.readonly}}' name="{{field.name}}" class="cell-input H5_date"/>
 		        </div>
 		        <div class="cell-right" ng-if='field.type == "select" '>
 		        	<select name="{{field.name}}" style="margin-top:15px;">
-						<option ng-repeat='option in field.value' ng-selected="{{option.selected}}" value='{{option.id}}'>{{option.text}}</option> 
+						<option ng-repeat='option in field.value' ng-readonly = '{{field.readonly}}' ng-selected="{{option.selected}}" value='{{option.id}}'>{{option.text}}</option> 
 					</select>
 		        </div>
 		        <div class="cell-right" ng-if='field.type == "Extension" '>
@@ -38,24 +38,14 @@
 					    </label>
 					</div>
 		        </div>
-		        <!-- <div class="cell-right" ng-if='field.type == "DATEPICKER" '>
-		        	<input value='{{field.value}}' name="{{field.name}}" class="cell-input H5_date"/>
-		        </div>
-		        <div class="cell-right" ng-if='field.type == "DATEPICKER" '>
-		        	<input value='{{field.value}}' name="{{field.name}}" class="cell-input H5_date"/>
-		        </div>
-		        <div class="cell-right" ng-if='field.type == "DATEPICKER" '>
-		        	<input value='{{field.value}}' name="{{field.name}}" class="cell-input H5_date"/>
-		        </div>
-		        <div class="cell-right" ng-if='field.type == "DATEPICKER" '>
-		        	<input value='{{field.value}}' name="{{field.name}}" class="cell-input H5_date"/>
-		        </div>-->
 	    	</div>
 		</form>
 	</div>	
 	<div class="mui-22222btn-blue">
-      	<div style='text-align: center;' id='btn'>
-		     <a href="javascript:;" ng-click='callback_fn()' class="btn btn-primary" style='font-size:16px;color:#fff;height:45px;line-height:45px;width:40%;background:#007aff'>保存</a>
+      	<div style='text-align:center;margin-top:50px;' ng-repeat = 'btn in btns'> 
+		     <a ng-click='fns[btn.fns]()' class="btn btn-primary" style='font-size:16px;color:#fff;height:45px;line-height:45px;width:40%;background:#007aff'>
+		     	{{btn.title}}
+		     </a>
 		</div>
     </div>
 </div>

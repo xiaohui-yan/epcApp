@@ -40,67 +40,37 @@
 	var formtemp = '';
 	var formbtn = '' ;
 	var mainformid ='';
+	var curWebview = '';
+	mui.plusReady(function(){
+		curWebview = plus.webview.currentWebview();
+	})
 	var dialog = window.YDUI.dialog;
 	var webView = JSON.parse(localStorage.getItem("webView"));
 		if( webView != '' && typeof webView != 'undefined'){
 			currType = webView.type;
 			formtemp = webView.formtemp;
 			formbtn = webView.formbtn;
+			mainformid = webView.mainformid;
 		}
 	var yduiUtil = window.YDUI.util;	
 	var app = angular.module('epcApp',[])
 		.controller('tabsCtrl',['$scope',function($scope){			
 			$scope.tabs = epc[currType].form.tabList;
 		}]).controller('formCtrl',['$scope',function($scope){
-			var obj = epcUtil.renderForm(currType,mainformid);
+			var obj = epcUtil.renderForm(currType,mainformid,formbtn);
 			$scope.fields = obj.field;
-			$scope.callback_fn = function(){   
-				epcUtil.saveForm(dialog,currType,mainformid,obj.json);
-			}
-			/*$scope.fields = [{ 
-				title:'普通文本',
-				name:'text',
-				value:'普通文本',
-				type:'text',
-			},{ 
-				title:'下拉选',
-				name:'select',
-				value: [{
-					id:'21978231782',
-					text:'类型1',
-					selected:true,
-				},{
-					id:'21978231783',
-					text:'类型2',
-					selected:false,
-				}],
-				type:'select',
-			},{ 
-				title:'日期',
-				name:'date',
-				value:'', 
-				type:'DATEPICKER',
-			},{ 
-				title:'时间',
-				name:'time',
-				value:'', 
-				type:'TIMEPICKER',
-			},{ 
-				title:'大文本',
-				name:'remake',
-				value:'这只是一个测试称故乡', 
-				type:'textarea',
-			},{
-				title:'二级选择组件',
-				name:'formui_formbean_jobsStructure_id',
-				text:'二级选择1',
-				type:'Extension',
-				id:'tree_picker1',
-				value:'121231231212321',
-				picker:{//外部定义的特殊处理字段
+			$scope.btns   = obj.btns;
+			$scope.fns = {
+				close_fn:function(){  //关闭
+					curWebview.close();
+				},
+				callback_fn:function(){  //保存 
+					epcUtil.saveForm(dialog,currType,mainformid,obj.json);
+				},
+				submit_fn:function(){  //提交 
 					
 				}
-			}];*/
+			} 
 			//添加渲染完毕的回调
 			$scope.$on('onFinishRender_fn', function(){ 
 				mui.plusReady(function(){
@@ -140,10 +110,6 @@
 					});
 				})(mui);
 			});
-			
-			
-
-			
 		}]).controller('subListCtrl',['$scope',function($scope){
 			$scope.grids = epcUtil.renderSubList(dialog,currType,mainformid);
 		}]).directive('onFinishRender',['$timeout', '$parse', function ($timeout, $parse) {

@@ -3,9 +3,30 @@ window.epc = {
 	root:'http://192.168.0.153:8080',
 	workHours:{//工时
 		btn:{
-			new:'新建工时',
-			edit:'编辑工时',
-			view:'查看工时', 
+			new:{
+				title:'新建工时',
+				formname:'New',
+				btn:[{
+					title:'保存',
+					fns:'callback_fn'
+				}]
+			},
+			edit:{
+				title:'编辑工时',
+				formname:'Modify',
+				btn:[{
+					title:'保存',
+					fns:'callback_fn'
+				}]
+			},
+			view:{
+				title:'查看工时',
+				formname:'View',
+				btn:[{
+					title:'关闭',
+					fns:'close_fn'
+				}]
+			}, 
 		},
 		list:{
 			extensionid: 'com.epc.epcfoundation.extensions.ui.grid',
@@ -22,9 +43,9 @@ window.epc = {
 				tempUrl:'../form/form.html',
 				action:{
 					extensionid:'com.epc.epcfoundation.extensions.ui.form2',
-					formname:'New',
 					functionpointid:'com.epc.epcemp.workHours',
 					functiongroupid:'4028809a4153ceb0014153d300250002',
+					_projectid:-1
 				},
 				btn:['saveForm'],
 			},{
@@ -248,19 +269,13 @@ window.epc = {
 				if(content!=null){
 					$(content).find('div').each(function(){
 						objArr.push({
-							btnTitle:$(this).html(), 
+							btnTitle:$.trim($(this).text()), 
 							formname:$(this).attr("p:formname"),
 							componentid:$(this).attr("p:componentid"),
 							actionextension:$(this).attr("p:actionextension"),
 							functiongroupid:$(this).attr("functiongroupid")
 						});
 					});
-					/*var commonid = $($div).attr("p:componentid");
-					alert(commonid);
-					obj.html(htm);
-					obj.click(function(){
-						window.newForm(formname);
-					});*/
 				}
 			},
 			error:function(xhr,type,errorThrown){
@@ -272,7 +287,6 @@ window.epc = {
 		return objArr;
 	},
 	epcUsers:function(){//缓存公司的所有办理人列表		
-		
 		if(plus.storage.getItem("epcUsers") == null){
 			var epcUsers_json = [];
 			mui.ajax(epc.root+'/extension/extensionAction.action',{
@@ -312,36 +326,14 @@ window.epc = {
 		}
 		return plus.storage.getItem("epcUsers");
 	},
-	showActionSheet :function (bts,show){
-			plus.nativeUI.actionSheet({cancel:"取消",buttons:bts},
-			function (e){
-				alert(bts[e.index]);
-
-				if(e.index == 1){
-					
-				}else if(e.index == 2){
-					plus.device.dial(number,true);
-				}else if(e.index == 3){
-					if ( plus.os.name == "Android" ) {
-						var bts=["发送到:移动("+number+")"];
-						plus.nativeUI.prompt("短信内容",function(e){
-							var to=null;
-							switch(e.index){
-								case 0:
-								to=[number];
-								break;
-							}
-							var msg = plus.messaging.createMessage(plus.messaging.TYPE_SMS);
-							msg.to=to;
-							msg.body=e.value;
-							msg.silent=true;
-							//plus.messaging.sendMessage( msg );
-						},"","",bts);
-					} else {
-						plus.nativeUI.alert("此平台不支持后台发送短信功能！");
-					}
-				}
-		}); 
+	showActionSheet :function (bts,self){
+		plus.nativeUI.actionSheet({cancel:"取消",buttons:bts},function(e){
+			if(bts[e.index-1].title == '修改'){
+				editForm(self);
+			}else if(bts[e.index-1].title == '删除'){
+				//删除
+			}
+		});
 	},
 	epcProject:function(){//
 		if(plus.storage.getItem("epcProject") == null){
