@@ -1,0 +1,116 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="stylesheet" href="../../static/fontClass/iconfont.css"/>
+	<link rel="stylesheet" href="../../static/css/ydui.css"/>
+	<link rel="stylesheet" href="../../static/css/mui.min.css">
+	<link rel="stylesheet" type="text/css" href="../../static/css/mui.picker.min.css" />
+	<script src="../../static/js/ydui.flexible.js"></script>
+	<style>
+		.mui-media-body{
+			font-size:13px;
+			color:#0062CC
+		}
+	</style>
+</head>
+<body style="background:#fff" ng-app='epcApp'>
+		<div style="display:none;">
+			<span id='page'></span>
+			<span id='total'></span>
+		</div>
+		<div id='add'  style='z-index:999999;position:fixed;top:10px;right:10px;width:30px;height:30px;border-radius:50%;'>
+			
+		</div>
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper" ng-controller='dataListCtrl'>
+			<div class="mui-scroll">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell" id='' ng-repeat = 'list in lists'>
+						<div class="mui-table-cell" onclick='window.viewForm(this)'>
+							<div class="mui-media-object mui-pull-left">
+			            		<i  class='iconfont {{icon}}' style='color:#0062CC;font-size:40px'></i>
+				            </div>
+				            <div class="mui-media-body">
+				                <span>{{list.cell1}}</span>
+				                <span>{{list.cell2}}</span>
+				                <p class='mui-ellipsis'>
+				                	<span>{{list.cell3}}</span> 
+				                	<span>{{list.cell4}}</span> 
+				                </p>
+				            </div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+</body>
+	<script src="../../static/js/jquery2.2.1.min.js"></script>
+	<script src="../../static/js/mui.min.js"></script>
+	<script src="../../static/js/ydui.js"></script>
+	<script src="../../static/js/mui.picker.min.js"></script>
+	<script src="../../static/js/immersed.js"></script>
+	<script src="../../static/js/angular.js"></script> 
+	<script src="../../js/config.js"></script>
+	<script src="../../js/epcUtil.js"></script>
+	<script type="text/javascript"> 
+		var util = window.YDUI.util;
+		var dialog = window.YDUI.dialog;
+		var currType = '';
+		var webView = JSON.parse(localStorage.getItem("webView"));
+		if( webView != '' && typeof webView != 'undefined'){
+			currType = webView.type;
+		}
+		angular.module('epcApp',[])
+		.controller('dataListCtrl',['$scope',function($scope){
+			$scope.obj   = epcUtil.renderDataList(dialog,currType,1,8);
+			$scope.icon  = $scope.obj.icon;
+			$scope.lists = $scope.obj.objArr;
+		}]);
+		window.editForm = function(o){
+			epc.clicked('../tab/tab.html',epc.random(true),epc[currType].btn.edit.title,{mainformid:o.id,type:currType,formbtn:'edit'});
+		}
+		window.newForm = function(value){
+			epc.clicked('../tab/tab.html',epc.random(true),epc[currType].btn.new.title,{type:currType,formbtn:'new',formtemp:value});
+		}
+		window.viewForm = function(o){
+			epc.clicked('../tab/tab.html',epc.random(true),epc[currType].btn.view.title,{mainformid:o.id,type:currType,formbtn:'view'});
+		}
+		window.delForm = function(o){
+			dialog.confirm('提示', '确定删除？', function () {
+                dialog.toast('你点了确定', 'none', 1000);
+            });
+		}
+	</script>
+	<script type="text/javascript" src="../static/js/immersed.js" ></script>
+	<script>
+		mui.init({
+			gestureConfig:{
+			   tap: true, //默认为true
+			   doubletap: true, //默认为false
+			   longtap: true, //默认为false
+			   swipe: true, //默认为true
+			   drag: true, //默认为true
+			   hold:true,//默认为false，不监听
+			   release:false//默认为false，不监听
+			 },
+		});
+		mui('.mui-table-view').on('longtap', '.mui-table-view-cell', function(event) {
+			var self = this;
+			var btnname = [{title:'操作',style:"destructive"}];
+			epc.loadBtn(currType,self.id).forEach(function(value){
+				if (value.btnTitle.trim() == '修改' || value.btnTitle.trim() == '删除') {
+					btnname.push(
+						{title:value.btnTitle}
+					);
+				}
+			});
+			epc.showActionSheet(btnname,self);
+		});
+		mui.back = function(){
+		    epc.clicked('../home.html','','首页');
+		}
+	</script>
+</html>

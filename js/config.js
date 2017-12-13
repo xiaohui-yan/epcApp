@@ -1,6 +1,6 @@
 window.epc = {
-	//root:'http://emp.epc-china.com',
-	root:'http://192.168.0.153:8080',
+	root:'http://emp.epc-china.com',
+	//root:'http://192.168.0.153:8080',
 	workHours:{//工时
 		btn:{
 			new:{
@@ -34,6 +34,11 @@ window.epc = {
 			functiongroupid:'4028809a4153ceb0014153d300250002',
 			grid:[2,3,4,5],
 			iconfont:'icon-shi',
+			_projectid:-1,
+			_search:false,
+			async:false,
+			sidx:'id',
+			sord:'desc',
 		},
 		form:{
 			tabList:[{
