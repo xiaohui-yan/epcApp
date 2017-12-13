@@ -5,11 +5,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
-	<link rel="stylesheet" href="../static/css/ydui.css"/>
-	<link rel="stylesheet" href="../static/fontClass/iconfont.css"/>
-	<link rel="stylesheet" href="../static/css/mui.min.css">
-	<script src="../static/js/ydui.flexible.js"></script>
-	<script src="../static/js/config.js"></script>
+	<link rel="stylesheet" href="../../static/fontClass/iconfont.css"/>
+	<link rel="stylesheet" href="../../static/css/ydui.css"/>
+	<link rel="stylesheet" href="../../static/css/mui.min.css">
+	<link rel="stylesheet" type="text/css" href="../../static/css/mui.picker.min.css" />
+	<script src="../../static/js/ydui.flexible.js"></script>
 	<style>
 		.mui-media-body{
 			font-size:13px;
@@ -58,9 +58,14 @@
 			</li>
 	    </div>
 </body>
-	<script src="../static/js/jquery2.2.1.min.js"></script>
-	<script src="../static/js/mui.min.js"></script>
-	<script src="../static/js/ydui.js"></script>  
+	<script src="../../static/js/jquery2.2.1.min.js"></script>
+	<script src="../../static/js/mui.min.js"></script>
+	<script src="../../static/js/ydui.js"></script>
+	<script src="../../static/js/mui.picker.min.js"></script>
+	<script src="../../static/js/immersed.js"></script>
+	<script src="../../static/js/angular.js"></script> 
+	<script src="../../js/js/config.js"></script>
+	<script src="../../js/js/epcUtil.js"></script>
 	<script type="text/javascript"> 
 		var util = window.YDUI.util;
 		var dialog = window.YDUI.dialog;
@@ -184,13 +189,13 @@
 //		
 //		}
 		window.editForm = function(o){
-			epc.clicked('commonForm.html',epc.random(true),epc[currType].btn.edit,{mainformid:o.id,type:currType,formbtn:'edit'});
+			epc.clicked('../tab/tab.html',epc.random(true),epc[currType].btn.edit,{mainformid:o.id,type:currType,formbtn:'edit'});
 		}
 		window.newForm = function(value){
-			epc.clicked('commonForm.html',epc.random(true),epc[currType].btn.new,{type:currType,formbtn:'new',formtemp:value});
+			epc.clicked('../tab/tab.html',epc.random(true),epc[currType].btn.new,{type:currType,formbtn:'new',formtemp:value});
 		}
 		window.viewForm = function(o){
-			epc.clicked('commonForm.html',epc.random(true),epc[currType].btn.view,{mainformid:o.id,type:currType,formbtn:'view'});
+			epc.clicked('../tab/tab.html',epc.random(true),epc[currType].btn.view,{mainformid:o.id,type:currType,formbtn:'view'});
 		}
 		window.delForm = function(o){
 			dialog.confirm('提示', '确定删除？', function () {
@@ -261,7 +266,7 @@
 			}
 		}
 		mui.back = function(){
-		    epc.clicked('home.html','','首页');
+		    epc.clicked('../home.html','','首页');
 		}
 	</script>
 </html>
