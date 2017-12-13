@@ -19,7 +19,7 @@ window.epc = {
 				title:'表单信息',
 				active:true,
 				show:true,
-				tempUrl:'form.html',
+				tempUrl:'../form/form.html',
 				action:{
 					extensionid:'com.epc.epcfoundation.extensions.ui.form2',
 					formname:'New',
@@ -31,7 +31,7 @@ window.epc = {
 				title:'未录入工时',
 				active:false,
 				show:true,
-				tempUrl:'sub-list.html',
+				tempUrl:'../sub-list/sub-list.html',
 				action:{
 					extensionid:'com.epc.epcfoundation.extensions.ui.grid',
 					formname:'New',
@@ -77,7 +77,7 @@ window.epc = {
 				title:'表单信息',
 				active:true,
 				show:true,
-				tempUrl:'form.html',
+				tempUrl:'../form/form.html',
 				action:{
 					extensionid:'com.epc.epcfoundation.extensions.ui.form2',
 					functionpointid:'com.epc.epcdoc.custom.cusdocclassfunctionpoint',
@@ -91,7 +91,7 @@ window.epc = {
 				name:'流程历史',
 				active:false,
 				show:false,
-				tempUrl:'sub-list.html',
+				tempUrl:'../sub-list/sub-list.html',
 				action:{
 					extensionid:'com.epc.epcfoundation.extensions.ui.grid',
 					functionpointid:'com.epc.epcdoc.custom.cusdocclassfunctionpoint',

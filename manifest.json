@@ -1566,7 +1566,8 @@
 					"epc/phoneList.html",
 					"epc/overTimeList.html",
 					"epc/commonList.html",
-					"ang/tabs.html"
+					"ang/tabs.html",
+					"epc/data-list/data-list.html"
 				],
 				"priority": 0
 			},
@@ -1770,6 +1771,21 @@
 				"resources": [],
 				"refer": [
 					"epc/commonList.html"
+				],
+				"priority": 0
+			},
+			"epc/data-list/data-list.html": {
+				"resources": [],
+				"refer": [
+					"epc/home.html",
+					"epc/tab/tab.html"
+				],
+				"priority": 0
+			},
+			"epc/tab/tab.html": {
+				"resources": [],
+				"refer": [
+					"epc/data-list/data-list.html"
 				],
 				"priority": 0
 			}

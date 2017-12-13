@@ -186,7 +186,7 @@ window.epcUtil = {
 				}else{
 					dialog.toast('保存成功！', 'success', 1000);
 					setTimeout(function(){
-						epc.clicked('commonList.html',epc.random(true),'我的工时',{type:point})
+						epc.clicked('../data-list/data-list.html',epc.random(true),'我的工时',{type:point})
 					},500)
 				}
 			},
