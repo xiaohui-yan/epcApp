@@ -47,7 +47,6 @@ window.epc = {
 					functiongroupid:'4028809a4153ceb0014153d300250002',
 					_projectid:-1
 				},
-				btn:['saveForm'],
 			},{
 				title:'未录入工时',
 				active:false,
@@ -82,9 +81,34 @@ window.epc = {
 	
 	leave:{//请假
 		btn:{
-			new:'请假申请',
-			view:'请假单',
-			edit:'请假单',
+			new:{
+				title:'请假申请',
+				formname:'btn_new',
+				componentid:'dailyLeave.dailyLeave.dailyLeave_new',
+				processinsid	:'wfinfo=emp_dailyLeave,start',
+				btn:[{
+					title:'保存',
+					fns:'callback_fn'
+				}]
+			},
+			edit:{
+				title:'编辑请假单',
+				formname:'btn_edit',
+				componentid:'dailyLeave.dailyLeave.dailyLeave_modify',
+				btn:[{
+					title:'保存',
+					fns:'callback_fn'
+				}]
+			},
+			view:{
+				title:'查看请假单',
+				formname:'btn_view',
+				componentid:'dailyLeave.dailyLeave.dailyLeave_view',
+				btn:[{
+					title:'关闭',
+					fns:'close_fn'
+				}]
+			}, 
 		},
 		list:{
 			extensionid:'com.epc.epcfoundation.extensions.ui.grid',
@@ -103,32 +127,50 @@ window.epc = {
 					extensionid:'com.epc.epcfoundation.extensions.ui.form2',
 					functionpointid:'com.epc.epcdoc.custom.cusdocclassfunctionpoint',
 					functiongroupid:'4028809a45ac17270145ac672aba0030',
-					componentid	:'dailyLeave.dailyLeave.dailyLeave_new',
-					processinsid:'wfinfo=emp_dailyLeave,start',
-					formname:'btn_new',
+					actionextension	:'wfinfo=emp_dailyLeave,start',
+					processinsid	:'wfinfo=emp_dailyLeave,start',
 					_projectid:-1
 				}
 			},{
-				name:'流程历史',
+				title:'流程历史',
 				active:false,
-				show:false,
+				show:true,
 				tempUrl:'../sub-list/sub-list.html',
 				action:{
 					extensionid:'com.epc.epcfoundation.extensions.ui.grid',
 					functionpointid:'com.epc.epcdoc.custom.cusdocclassfunctionpoint',
 					componentid:'dailyLeave.dailyLeave.dailyLeave_view',
-					subgridname:'taskhistory'
+					subgridname:'taskhistory',
+					_projectid:-1
 				},
-				grid:[1,2,3]
+				grid:[1,2,4,5],
+			}],
+			specialField:[{
+				fieldId:'formbean_user01_id',//组件id
+				layer:{layer:1},
+				dataSource:function(){//扩展组件请求参数
+					return JSON.parse(epc.epcUsers());
+				},
+				callback:function(items){
+					alert(items[0].text);
+					$('#formbean_user01_id_picker').val(items[0].text);
+					$('input[name="formbean_user01_id"]').val(items[0].value);
+				}
+			},{
+				fieldId:'_wfNextUser',//组件id
+				layer:{layer:1},
+				dataSource:function(){//扩展组件请求参数
+					return JSON.parse(epc.epcUsers());
+				},
+				callback:function(items){
+					alert(items[0].text);
+					$('#_wfNextUser_picker').val(items[0].text);
+					$('input[name="_wfNextUser"]').val(items[0].value);
+				}
 			}],
 			
 		},
 		
-	},
-	overtime:{//加班
-		extensionid:'com.epc.epcfoundation.extensions.ui.grid',
-		functionpointid:'com.epc.epcdoc.custom.cusdocclassfunctionpoint',
-		functiongroupid:'4028809a45ac17270145ac6aadc90034'
 	},
 	task:{//流程
 		
@@ -168,12 +210,6 @@ window.epc = {
 			}],
 			
 		},
-	},
-	taskForm:{//流程表单
-		extensionid:'com.epc.epcfoundation.extensions.ui.standardflow',
-		functionpointid:'com.epc.epcfoundation.base.tasklist',
-		functiongroupid:'402880b13c7fb7a6013c8074eacc0018',
-		formname:'workflow',
 	},
 	
 	

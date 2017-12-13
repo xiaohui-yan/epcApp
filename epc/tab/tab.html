@@ -76,7 +76,7 @@
 				mui.plusReady(function(){
 					$scope.fields.forEach(function(field){
 						if(field.type == 'Extension'){//渲染组件
-							epc.workHours.form.specialField.forEach(function(obj){
+							epc[currType].form.specialField.forEach(function(obj){
 								if(obj.fieldId == field.name){
 									field.picker = obj;
 									var tree_picker = new mui.PopPicker(field.picker.layer);
@@ -111,7 +111,7 @@
 				})(mui);
 			});
 		}]).controller('subListCtrl',['$scope',function($scope){
-			$scope.grids = epcUtil.renderSubList(dialog,currType,mainformid);
+			$scope.grids = epcUtil.renderSubList(dialog,currType,mainformid,formbtn);
 		}]).directive('onFinishRender',['$timeout', '$parse', function ($timeout, $parse) {
 		    return {
 		        restrict: 'A',

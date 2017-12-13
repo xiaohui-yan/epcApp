@@ -43,7 +43,8 @@ window.epcUtil = {
 		var objArr = [];
 		var btnArr = epc[point].btn[formbtn].btn;//获取配置按钮信息
 		var data = epc[point].form.tabList[0].action;
-		data.formname = epc[point].btn[formbtn].formname;
+		data.formname    = epc[point].btn[formbtn].formname;
+		data.componentid = epc[point].btn[formbtn].componentid;
 		data.selrowid = mainformid;
 		mui.ajax(epc.root+'/extension/extensionAction.action',{
 			data:data,
@@ -62,8 +63,12 @@ window.epcUtil = {
 					functiongroupid:el.find('#_functiongroupid').val(),
 					treenodeid:el.find('#_treeNodeId').val(),
 					treeNodeType:el.find('#_treeNodeType').val(),
-					formname:el.find('#_formname').val(),
-					formsubmit:true
+					//formname:el.find('#_formname').val(),
+					formsubmit:true,
+					//请假参数
+					actionExtension:'com.epc.epcemp.dailyLeave.startprocess',
+					workflowinfo:epc[point].btn[formbtn].processinsid,
+					buttonid:'btn_workflow_Submit',
 				}
 				var formelement = el.find('.formelement');//首先便利所有的表单字段显示
 				formelement.each(function(){
@@ -83,7 +88,7 @@ window.epcUtil = {
 							obj.type = 'DATEPICKER';	
 						}else if($(this).attr("uitype") == "TIMEPICKER"){
 							obj.type = 'TIMEPICKER';	
-						}else if($(this).attr("type") == "radio"){
+						}else if($(this).find('input').attr("type") == "radio"){
 							obj.type = 'radio';	
 							$(this).find('input').each(function(){
 								obj.value = [];
@@ -91,7 +96,7 @@ window.epcUtil = {
 									id:$(this).val(),
 									text:$(this).next('label').html(),
 									checked:$(this).attr('checked')!=''?true:false
-								})
+								});
 							})
 						}
 					}else if($(this).find('textarea').length > 0){//textarea
@@ -124,6 +129,11 @@ window.epcUtil = {
 					}
 					objArr.push(obj);
 				});
+			},
+			error:function(e){
+				//异常处理；
+				dialog.loading.close();
+				dialog.toast('读取异常！', 'error', 1000);
 			}
 		});
 		fields.field = objArr;
@@ -132,10 +142,14 @@ window.epcUtil = {
 		return fields;
 	},
 	//加载子表
-	renderSubList:function(dialog,point,mainformid){
+	renderSubList:function(dialog,point,mainformid,formbtn){
 		var objArr = [];
+		var data = epc[point].form.tabList[1].action;
+		data.formname = epc[point].btn[formbtn].formname;
+		data.selrowid = mainformid;
+		data.mainformid = mainformid;
 		mui.ajax(epc.root+'/extension/extensionAction.action',{
-			data:epc[point].form.tabList[1].action,
+			data:data,
 			type:'get',//HTTP请求类型
 			dataType:'html',
 			async: false,
@@ -180,13 +194,16 @@ window.epcUtil = {
 	//保存表单
 	saveForm:function(dialog,point,mainformid,json){
 		dialog.loading.open('保存数据');
-		console.log($('#form').serialize());
+		console.log(JSON.stringify(json));
+		
+		
 		mui.ajax(epc.root+'/extension/extensionAction.action?'+$('#form').serialize(),{
 			data:json,
 			type:'get',//HTTP请求类型
 			dataType:'html',
 			timeout:6000,//超时时间设置为10秒
 			success:function(data){
+				console.log(data);
 				var el = $(data);
 				dialog.loading.close();
 				if(el.find('#message').length > 0){
