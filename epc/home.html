@@ -1,0 +1,205 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="stylesheet" href="../static/css/ydui.css"/>
+	<link rel="stylesheet" href="../static/fontClass/iconfont.css"/>
+	<link rel="stylesheet" href="../static/css/mui.min.css">
+	<script src="../static/js/ydui.flexible.js"></script> 
+	<script src="../static/js/config.js"></script>
+	<style>
+		.mui-media-body{
+			font-size:13px;
+			color:#0062CC
+		}
+		.m-grids-4 .grids-item:not(:nth-child(4n)):before{
+		    content: none;
+		}
+		.grids-item:after {
+			content: none;
+		}
+		.m-grids-4:before {
+			content: none;
+		}
+	</style>
+</head>
+<body style="background:#fff">
+	<section class="g-flexview">
+	    <div class="mui-content">
+	    	<div class="m-slider" id="J_Slider">
+			    <div class="slider-wrapper">
+			        <div class="slider-item">
+			            <a href="#">
+			                <img src="../static/img/home1.jpg" style='height:200px;width:100%'>
+			            </a>
+			        </div>
+			        <div class="slider-item">
+			            <a href="#">
+			                <img src="../static/img/home3.jpg" style='height:200px;width:100%'>
+			            </a>
+			        </div>
+			        <div class="slider-item">
+			            <a href="#">
+			                <img src="../static/img/home4.jpg" style='height:200px;width:100%'>
+			            </a>
+			        </div>
+			        <div class="slider-item">
+			            <a href="#">
+			                <img src="../static/img/home5.jpg" style='height:200px;width:100%'>
+			            </a>
+			        </div>
+			    </div>
+			    <div class="slider-pagination"></div>
+			</div>
+			<div class="m-grids-4">
+	            <a class="grids-item" onclick="epc.clicked('commonList.html',epc.random(true),'我的工时',{type:'workHours'});"> 
+	                <div class="grids-icon">
+	                    <i class="iconfont icon-shi" style='font-size:34px'></i>
+	                </div>
+	                <div class="grids-txt">工时</div>
+	            </a>
+	            <a class="grids-item" onclick="epc.clicked('commonList.html',epc.random(true),'请假申请',{type:'leave'});">
+	                <div class="grids-icon">
+	                    <i class="iconfont icon-jia" style='font-size:30px;'></i>
+	                </div>
+	                <div class="grids-txt">请假</div>
+	            </a>
+	            <a class="grids-item" onclick="epc.clicked('overTimeList.html',epc.random(true),'加班申请');">
+	                <div class="grids-icon">
+	                    <i class="iconfont icon-jiaban" style='font-size:30px;'></i>
+	                </div>
+	                <div class="grids-txt">加班</div>
+	            </a>
+	            <a class="grids-item" href="">
+	                <div class="grids-icon">
+	                    <i class="iconfont icon-chucha" style='font-size:30px;color:#e2e2e2'></i>
+	                </div>
+	                <div class="grids-txt">出差</div>
+	            </a>
+	            <a class="grids-item" href="">
+	                <div class="grids-icon">
+	                    <i class="iconfont icon-kaoqindaqia" style='font-size:30px;color:#e2e2e2'></i>
+	                </div>
+	                <div class="grids-txt">考勤</div>
+	            </a>
+	            <a class="grids-item" href="">
+	                <div class="grids-icon">
+	                    <i class="iconfont icon-3richeng" style='font-size:30px;color:#e2e2e2'></i>
+	                </div>
+	                <div class="grids-txt">他人日程</div>
+	            </a>
+	            <a class="grids-item" href="">
+	                <div class="grids-icon">
+	                    <i class="iconfont icon-3richeng" style='font-size:30px;color:#e2e2e2'></i>
+	                </div>
+	                <div class="grids-txt">我的日程</div>
+	            </a>
+	            <a class="grids-item" onclick="epc.clicked('phoneList.html','234232','通讯录');">
+	                <div class="grids-icon">
+	                    <i class="iconfont icon-tongxunlu" style='font-size:30px;'></i>
+	                </div>
+	                <div class="grids-txt">通讯录</div>
+	            </a>
+	            <a class="grids-item" onclick="epc.clicked('../ang/tabs.html',epc.random(true),'我的待办',{type:'task'});"> 
+	                <div class="grids-icon">
+	                    <i class="iconfont icon-daiban" style='font-size:30px'></i>
+	                    <sup>
+	                    	<span class="badge badge-danger" style='display:none' id='records'></span>
+	                    </sup>
+	                </div>
+	                <div class="grids-txt">待办</div>
+	            </a>
+	            <a class="grids-item" onclick="window.quit()"> 
+	                <div class="grids-icon">
+	                    <i class="iconfont icon-tuichu" style='font-size:30px'></i>
+	                </div>
+	                <div class="grids-txt">退出</div>
+	            </a>
+	        </div>
+	    </div>
+	</section>
+</body>
+	<script src="../static/js/jquery2.2.1.min.js"></script>
+	<script src="../static/js/mui.min.js"></script>
+	<script src="../static/js/ydui.js"></script> 
+	<script type="text/javascript" src="../static/js/immersed.js" ></script>
+	<script type="text/javascript"> 
+		var util = window.YDUI.util;
+		if(util.getQueryString("taskCount") != ''){
+			$('#records').html(util.getQueryString("taskCount")).show();
+		}
+		var dialog = window.YDUI.dialog;
+		$('#J_Slider').slider({
+	        speed: 200, 
+	        autoplay: 2000, 
+	        lazyLoad: true 
+	    });
+	    mui.plusReady(function(){
+	    	plus.storage.removeItem('workJson');
+	    });
+	    mui.ajax(epc.root+'/extension/extensionAction.action',{
+			data:{
+				extensionid:'com.epc.epcfoundation.extensions.ui.grid',
+				async:false,
+				functionpointid:'com.epc.epcfoundation.base.tasklist',
+				functionid_settitle:'com.epc.epcfoundation.extension.ui.tabpanel_settitle',
+				functiongroupid:'402880b13c7fb7a6013c8074eacc0018',
+				_projectid:-1,
+				_search:false,
+				rows:1, 
+				page:1,
+			}, 
+			type:'post',//HTTP请求类型
+			dataType:'html',
+			timeout:10000,//超时时间设置为10秒；
+			success:function(data){
+				dialog.loading.close();
+				var json = $(data).find('#jsondata').text();
+				try{
+					json = eval("(" + json + ")");//JSON.parse($.trim(json));//获取json数据
+				}catch(e){
+					console.log(e)
+					return false;
+				} 
+				var records = json.datastr.records;
+				if(records != 0){
+					$('#records').html(records).show();
+					$('.taskCount').attr('href','taskList.html?taskCount='+records);
+				}
+			},
+			error:function(xhr,type,errorThrown){
+				//异常处理；
+				console.log(type);
+			}
+		});
+		mui.back = function(){
+		  var btn = ["确定","取消"];
+		  mui.confirm('确定退出？','EMP',btn,function(e){
+		    if(e.index==0){
+		    	//执行mui封装好的窗口关闭逻辑；
+		    	plus.storage.removeItem("auto")
+		    	epc.clicked('../index.html','655665','登录');
+		    }
+		  });
+		}
+		window.quit = function(){
+			var btn = ["退出并清除缓存数据","确定","取消"];
+		  	mui.confirm('确定退出？','EMP',btn,function(e){
+			    if(e.index==0){
+			    	//执行mui封装好的窗口关闭逻辑；
+			    	plus.storage.clear();
+			    	plus.storage.setItem("lauchFlag",true);
+			    	epc.clicked('../index.html','1223113123','登录');
+			    }
+			    if(e.index==1){
+			    	//执行mui封装好的窗口关闭逻辑；
+			    	plus.storage.removeItem("auto")
+			    	epc.clicked('../index.html','687678','登录');
+			    }
+		   	});
+		}
+	</script>
+</html>

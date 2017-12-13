@@ -1,0 +1,267 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="stylesheet" href="../static/css/ydui.css"/>
+	<link rel="stylesheet" href="../static/fontClass/iconfont.css"/>
+	<link rel="stylesheet" href="../static/css/mui.min.css">
+	<script src="../static/js/ydui.flexible.js"></script>
+	<script src="../static/js/config.js"></script>
+	<style>
+		.mui-media-body{
+			font-size:13px;
+			color:#0062CC
+		}
+	</style>
+</head>
+<body style="background:#fff">
+		<div style="display:none;">
+			<span id='page'></span>
+			<span id='total'></span>
+		</div>
+		<div id='add'  style='z-index:999999;position:fixed;top:10px;right:10px;width:30px;height:30px;border-radius:50%;'>
+			
+		</div>
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<ul class="mui-table-view" id="OA_task_2">
+					
+				</ul>
+			</div>
+		</div>
+	    <div id='temp' style='display:none'>
+			<li class="mui-table-view-cell" id=''>
+				<div class="mui-slider-right mui-disabled">
+					<a class="mui-btn mui-btn-yellow mui-icon mui-icon-compose" id='' onclick='window.editForm(this)'></a>
+					<a class="mui-btn mui-btn-red mui-icon  mui-icon-trash" id='' onclick='window.delForm(this)'></a>
+					
+
+				</div>
+				<div class="mui-slider-handle" onclick='window.viewForm(this)'>
+					<div class="mui-table-cell">
+						<div class="mui-media-object mui-pull-left">
+		            		<i  class='iconfont' style='color:#0062CC;font-size:40px'></i>
+			            </div>
+			            <div class="mui-media-body">
+			                <span class='cell1'></span>
+			                <span class='cell2'></span>
+			                <p class='mui-ellipsis'>
+			                	<span class='cell3'></span> 
+			                	<span class='cell4'></span> 
+			                </p>
+			            </div>
+					</div>
+				</div>
+			</li>
+	    </div>
+</body>
+	<script src="../static/js/jquery2.2.1.min.js"></script>
+	<script src="../static/js/mui.min.js"></script>
+	<script src="../static/js/ydui.js"></script>  
+	<script type="text/javascript"> 
+		var util = window.YDUI.util;
+		var dialog = window.YDUI.dialog;
+		var currType = '';
+		var webView = JSON.parse(localStorage.getItem("webView"));
+		if( webView != '' && typeof webView != 'undefined'){
+			currType = webView.type;
+		}
+		mui.plusReady(function () {
+			loadList(1,8);
+			plus.webview.currentWebview().setStyle({scrollIndicator:'none'});// 隐藏滚动条
+			addPro();
+		});
+		function addPro(){
+			epc.loadBtn(currType,'').forEach(function(value){
+				var btn = $('#add');
+				btn.html("<i   class='iconfont icon-tianjia' style='font-size:30px;color:#04BE02'></i>");
+				btn.click(function(){
+					window.newForm(value);
+				});
+			});
+			
+		}
+		function loadList(page,rows){
+			mui.ajax(epc.root+'/extension/extensionAction.action',{
+				data:{
+					extensionid:     epc[currType].list.extensionid,
+					functionpointid: epc[currType].list.functionpointid,
+					functiongroupid: epc[currType].list.functiongroupid,
+					_projectid:-1,
+					_search:false,
+					async:false,
+					rows:rows,
+					page:page,
+					sidx:'id',
+					sord:'desc', 
+				}, 
+				type:'post',//HTTP请求类型
+				dataType:'html',
+				timeout:10000,//超时时间设置为10秒；
+				success:function(data){
+					dialog.loading.close();
+					var json = $(data).find('#jsondata').text();
+					if(typeof json == 'undefined'){
+						dialog.toast('读取数据异常！', 'error', 1000);
+					}
+					try{
+						json = eval("(" + json + ")");//JSON.parse($.trim(json));//获取json数据
+					}catch(e){
+						console.log(e)
+						dialog.toast('json解析异常', 'error', 2000);
+						return false;
+					}  
+					var rows    = json.datastr.rows; 
+					var page 	= json.datastr.page;
+					var total 	= json.datastr.total;
+					if(total > 1){
+						$('#page').html(page);
+						$('#total').html(total);
+					}
+					var temp = $('#temp');
+					if(rows.length == 0){
+						dialog.alert('暂无相关数据！');
+					}
+					for(var row in rows){
+						temp.find('.cell1').html(rows[row].cell[epc[currType].list.grid[0]]);
+						temp.find('.cell2').html(rows[row].cell[epc[currType].list.grid[1]]);
+						temp.find('.cell3').html(rows[row].cell[epc[currType].list.grid[2]]);
+						temp.find('.cell4').html(rows[row].cell[epc[currType].list.grid[3]]);
+						//固定赋值
+						temp.find('a').attr("id",rows[row].id);
+						temp.find('.iconfont').addClass(epc[currType].list.iconfont);
+						temp.find('.mui-slider-handle').attr('id',rows[row].id);//编辑
+						temp.find('.mui-table-view-cell').attr('id',rows[row].id);//编辑
+						temp.find('.mui-icon-trash').attr('id',rows[row].id);//删除
+						$('.mui-table-view').append(temp.html());
+					}
+					if(total == page){
+						mui('#pullrefresh').pullRefresh().endPullupToRefresh(true); //参数为true代表没有更多数据了。
+					}else{
+					   mui('#pullrefresh').pullRefresh().endPullupToRefresh(false); //参数为true代表没有更多数据了。
+					}	
+				},
+				error:function(xhr,type,errorThrown){
+					//异常处理；
+					dialog.loading.close();
+					dialog.toast('网络异常！', 'error', 1000);
+				}
+			});
+		}
+//		function loadBtn(obj,htm,formname,currType){
+//			mui.ajax(epc.root+'/extension/extensionAction.action',{
+//				data:{
+//					extensionid:    'com.epc.epcfoundation.extensions.ui.buttons',
+//					functionpointid: epc[currType].list.functionpointid,
+//					functiongroupid:epc[currType].list.functiongroupid,
+//					_projectid:-1,
+//				}, 
+//				type:'post',//HTTP请求类型
+//				dataType:'html',
+//				timeout:10000,//超时时间设置为10秒；
+//				success:function(data){
+//					dialog.loading.close();
+//					var json = $(data).find('#template').html();
+//					var btn = $('#add');
+//					var $div = $.trim(json);
+//					if($div!=null){
+//						var formname = $($div).attr("p:formname");
+//						btn.html("<i   class='iconfont icon-tianjia' style='font-size:30px;color:#04BE02'></i>");
+//						btn.click(function(){
+//							window.newForm(formname);
+//						});
+//					}
+//				},
+//				error:function(xhr,type,errorThrown){
+//					//异常处理；
+//					dialog.loading.close();
+//					dialog.toast('按钮异常！', 'error', 1000);
+//				}
+//			});
+//		
+//		}
+		window.editForm = function(o){
+			epc.clicked('commonForm.html',epc.random(true),epc[currType].btn.edit,{mainformid:o.id,type:currType,formbtn:'edit'});
+		}
+		window.newForm = function(value){
+			epc.clicked('commonForm.html',epc.random(true),epc[currType].btn.new,{type:currType,formbtn:'new',formtemp:value});
+		}
+		window.viewForm = function(o){
+			epc.clicked('commonForm.html',epc.random(true),epc[currType].btn.view,{mainformid:o.id,type:currType,formbtn:'view'});
+		}
+		window.delForm = function(o){
+			dialog.confirm('提示', '确定删除？', function () {
+                dialog.toast('你点了确定', 'none', 1000);
+            });
+		}
+	</script>
+	<script type="text/javascript" src="../static/js/immersed.js" ></script>
+	<script>
+		mui.init({
+			pullRefresh: {
+				container: '#pullrefresh',
+				down:{
+					callback: pulldownRefresh
+				},
+				up: {
+					contentrefresh: '正在加载...',
+					callback: pullupRefresh
+				}
+			},
+			gestureConfig:{
+			   tap: true, //默认为true
+			   doubletap: true, //默认为false
+			   longtap: true, //默认为false
+			   swipe: true, //默认为true
+			   drag: true, //默认为true
+			   hold:true,//默认为false，不监听
+			   release:false//默认为false，不监听
+			 },
+		});
+		mui('.mui-table-view').on('longtap', '.mui-table-view-cell', function(event) {
+			var elem = this;
+			var id = this.getAttribute("id");
+			var btnname = [];
+			//alert(JSON.stringify(epc.loadBtn(currType,id)));
+
+			epc.loadBtn(currType,id).forEach(function(value){
+				
+			//	alert(value.btnTitle.trim() == '修改'|| value.btnTitle.trim()== '删除')
+				if (value.btnTitle.trim() == '修改' || value.btnTitle.trim() == '删除') {
+					btnname.push(
+						{title:value.btnTitle}
+					);
+				}
+			});
+			
+			epc.showActionSheet(btnname);
+			
+		//		value.btnTitle formname componentid actionextension functiongroupid
+				
+			
+			
+			//$(elem).find('.mui-selected').append('<a class="mui-btn mui-btn-red mui-icon  mui-icon-trash" id="fcaa90d56000c1180160111d80390054" onclick="window.editForm(this)" style="transform: translate(-90px, 0px);"></a>');
+		});
+	
+		/**
+		 * 上拉加载具体业务实现
+		 */
+		function pulldownRefresh() {
+			//mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+		}
+		function pullupRefresh() {
+			var page = $("#page").html();
+			if(parseInt( $("#page").html() )>= parseInt( $("#total").html() )){ 
+				return;
+			}else{
+				loadList(parseInt( page ) + 1,8);
+			}
+		}
+		mui.back = function(){
+		    epc.clicked('home.html','','首页');
+		}
+	</script>
+</html>

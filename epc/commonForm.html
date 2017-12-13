@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="stylesheet" href="../static/fontClass/iconfont.css"/>
+	<link rel="stylesheet" href="../static/css/ydui.css"/>
+	<link rel="stylesheet" href="../static/css/mui.min.css">
+	<script src="../static/js/ydui.flexible.js"></script>
+	<link rel="stylesheet" type="text/css" href="../static/css/mui.picker.min.css" />
+</head>
+<body style="background:#fff" ng-app = "epcApp" ng-controller = 'tabsCtrl'>
+    <div class="mui-content" style='background:#fff;margin-top:10px;'>
+    	<div class="m-tab" data-ydui-tab>
+		    <ul class="tab-nav">
+		        <li ng-class="{true:'tab-nav-item tab-active',false:'tab-nav-item'}[tab.active]"   ng-repeat='tab in tabs' ng-if='tab.show'>
+		        	{{tab.title}}
+		        </li>
+		    </ul>
+		    <div class="tab-panel">
+		        <div ng-class="{true:'tab-panel-item tab-active',false:'tab-panel-item'}[tab.active]" ng-repeat='tab in tabs' ng-if='tab.show'>
+		        	<div ng-include="tab.tempUrl"></div>
+		        </div>
+		    </div>
+		</div>
+		<input type="hidden" id = 'extras'  />
+    </div>
+<script src="../static/js/jquery2.2.1.min.js"></script>
+<script src="../static/js/mui.min.js"></script>
+<script src="../static/js/ydui.js"></script>
+<script src="../static/js/config.js"></script>
+<script src="../static/js/epcUtil.js"></script>
+<script src="../static/js/mui.picker.min.js"></script>
+<script type="text/javascript" src="../static/js/immersed.js"></script>
+<script src="../static/js/angular.js"></script> 
+
+<script>
+	var currType = '';
+	var formtemp = '';
+	var formbtn = '' ;
+	var mainformid ='';
+	var dialog = window.YDUI.dialog;
+	var webView = JSON.parse(localStorage.getItem("webView"));
+		if( webView != '' && typeof webView != 'undefined'){
+			currType = webView.type;
+			formtemp = webView.formtemp;
+			formbtn = webView.formbtn;
+		}
+	var yduiUtil = window.YDUI.util;	
+	var app = angular.module('epcApp',[])
+		.controller('tabsCtrl',['$scope',function($scope){			
+			$scope.tabs = epc[currType].form.tabList;
+		}]).controller('formCtrl',['$scope',function($scope){
+			var obj = epcUtil.renderForm(currType,mainformid);
+			$scope.fields = obj.field;
+			$scope.callback_fn = function(){   
+				epcUtil.saveForm(dialog,currType,mainformid,obj.json);
+			}
+			/*$scope.fields = [{ 
+				title:'普通文本',
+				name:'text',
+				value:'普通文本',
+				type:'text',
+			},{ 
+				title:'下拉选',
+				name:'select',
+				value: [{
+					id:'21978231782',
+					text:'类型1',
+					selected:true,
+				},{
+					id:'21978231783',
+					text:'类型2',
+					selected:false,
+				}],
+				type:'select',
+			},{ 
+				title:'日期',
+				name:'date',
+				value:'', 
+				type:'DATEPICKER',
+			},{ 
+				title:'时间',
+				name:'time',
+				value:'', 
+				type:'TIMEPICKER',
+			},{ 
+				title:'大文本',
+				name:'remake',
+				value:'这只是一个测试称故乡', 
+				type:'textarea',
+			},{
+				title:'二级选择组件',
+				name:'formui_formbean_jobsStructure_id',
+				text:'二级选择1',
+				type:'Extension',
+				id:'tree_picker1',
+				value:'121231231212321',
+				picker:{//外部定义的特殊处理字段
+					
+				}
+			}];*/
+			//添加渲染完毕的回调
+			$scope.$on('onFinishRender_fn', function(){ 
+				mui.plusReady(function(){
+					$scope.fields.forEach(function(field){
+						if(field.type == 'Extension'){//渲染组件
+							epc.workHours.form.specialField.forEach(function(obj){
+								if(obj.fieldId == field.name){
+									field.picker = obj;
+									var tree_picker = new mui.PopPicker(field.picker.layer);
+									tree_picker.setData(field.picker.dataSource());
+									var showCityPickerButton = document.getElementById(field.id);
+									showCityPickerButton.addEventListener('tap', function(event) {
+										tree_picker.show(function(items){
+											field.picker.callback(items);
+										});
+									}, false);
+								}
+							})
+						}
+					});
+				});
+				//渲染日期组件
+		      	(function($) {
+					var btns = $('.H5_date');
+					btns.each(function(i, btn) {
+						btn.addEventListener('tap', function() {
+							var optionsJson = this.getAttribute('data-options') || '{}';
+							var options = JSON.parse(optionsJson);
+							var id = this.getAttribute('id');
+							var picker = new $.DtPicker(options);
+							var self = this;
+							picker.show(function(rs) {
+								jQuery(self).val((rs.text));
+								picker.dispose();
+							});
+						}, false); 
+					});
+				})(mui);
+			});
+			
+			
+
+			
+		}]).controller('subListCtrl',['$scope',function($scope){
+			$scope.grids = epcUtil.renderSubList(dialog,currType,mainformid);
+		}]).directive('onFinishRender',['$timeout', '$parse', function ($timeout, $parse) {
+		    return {
+		        restrict: 'A',
+		        link: function (scope, element, attr) {
+		            if (scope.$last === true) {
+		            	$timeout(function($scope){  
+		                    scope.$emit('onFinishRender_fn',$scope); 
+		                });
+		            }
+		        }
+		    }
+		}])
+</script>
+</body>
+</html>
