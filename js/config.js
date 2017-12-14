@@ -75,10 +75,9 @@ window.epc = {
 					return JSON.parse(epc.userProject());
 				},
 				callback:function(items){
-					/*$('input[name="formbean_jobsStructure_id"]').val(items[1].value);
-					$('#showCityPicker3').val(items[1].text);
-					$('input[name="formbean_jobsStructure_wbs_project_projectname"]').val(items[0].text);*/
-					console.log(items);
+					$('#formbean_jobsStructure_id_picker').val(items[1].text);
+					$('input[name="formbean_jobsStructure_id"]').val(items[1].value);
+					$('input[name="formbean_jobsStructure_wbs_project_projectname"]').val(items[0].text);
 				}
 			}],
 		},
@@ -157,7 +156,6 @@ window.epc = {
 					return JSON.parse(epc.epcUsers());
 				},
 				callback:function(items){
-					alert(items[0].text);
 					$('#formbean_user01_id_picker').val(items[0].text);
 					$('input[name="formbean_user01_id"]').val(items[0].value);
 				}
@@ -168,7 +166,6 @@ window.epc = {
 					return JSON.parse(epc.epcUsers());
 				},
 				callback:function(items){
-					alert(items[0].text);
 					$('#_wfNextUser_picker').val(items[0].text);
 					$('input[name="_wfNextUser"]').val(items[0].value);
 				}
