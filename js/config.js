@@ -95,7 +95,7 @@ window.epc = {
 				},{
 					title:'提交',
 					fns:'submit_fn'
-				}]
+				},]
 			},
 			edit:{
 				title:'编辑请假单',
@@ -431,7 +431,7 @@ window.epc = {
 	            base64Data:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAb1BMVEUAAAAAev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8AAACubimgAAAAI3RSTlMAGfUTGfQTGPMSGPIYGhgaGBsXGxcbFxwXHBccFhwWHRYdHWufDPQAAAABYktHRACIBR1IAAAAB3RJTUUH4QETEBwooeTlkQAAAJVJREFUSMft1EkSgkAQRNFGUXFWHBDBibr/HTUwD5B/48Ig1y+io7u6MqUhf5hsNEY+j5hMgZ/FJ8Xc9ovos3T96utjbfqN/Nb0O/m96Uv5g+mP8ifTn+Ur01/ka9Nf5RvTt/I309/lH6Z/yr9Mn+Q71/MT8B34K/E58Enzv8R/K98HvnF8p3lr8F7izce7lbf3kJ/lDQp9HdBhgg3PAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE3LTAxLTE5VDE2OjI4OjQwKzA4OjAwpTDFwQAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxNy0wMS0xOVQxNjoyODo0MCswODowMNRtfX0AAAAASUVORK5CYII='//加载图片的Base64编码格式数据 base64Data 和 imgSRC 必须指定一个.否则不显示返回箭头
 	        }
 	    }
-		if(title == '首页'){
+		if(title == '首页' || title == '登录'){
 			back = {};
 		}
 		mui.openWindowWithTitle({
@@ -441,8 +441,12 @@ window.epc = {
 				statusbar: {//WebviewStatusbarStyles类型,窗口状态栏样式.仅在应用设置为沉浸式状态栏样式下有效,设置此属性后将自动保留系统状态栏区域不被Webview窗口占用(即Webview窗口非沉浸式样式显示).
 		            background: '#000'
 		       	},
-		  	}
+ 		  	}
 		},{
+			id:webviewId+"title",//导航栏ID,默认为title,若不指定将会使用WebviewOptions中指定的 [webviewID+ "_title"] 作为id
+		    height:"50px",//导航栏高度值
+		    backgroundColor:"#ddd",//导航栏背景色
+		    bottomBorderColor:"#fff",//底部边线颜色
 		    title:{//标题配置
 		        text:title,//标题文字
 		        position:{ //绘制文本的目标区域，参考：http://www.html5plus.org/doc/zh_cn/nativeobj.html#plus.nativeObj.Rect

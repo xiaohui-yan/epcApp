@@ -41,11 +41,11 @@
 	    	</div>
 		</form>
 	</div>	
-	<div style='text-align:center;margin-top:50px;margin-bottom:20px;'>
-		<div style='float:right' ng-repeat = 'btn in btns'> 
-		     <a ng-click='fns[btn.fns]()' class="btn btn-primary" style='margin-left:20px;font-size:16px;color:#fff;height:45px;line-height:45px;background:#007aff'>
-		     	{{btn.title}}
-		     </a>
+	<div style='text-align:center;margin-top:30px;'>
+		<div style='float:left;width:20%;margin-left:10%;margin-bottom:30px;' ng-repeat = 'btn in btns '> 
+		    <button ng-click='fns[btn.fns]()' class="btn btn-primary" style='width:100%;font-size:16px;color:#fff;height:45px;line-height:45px;background:#007aff'>
+		    	{{btn.title}}
+		    </button>
 		</div>
 	</div>
 </div>
