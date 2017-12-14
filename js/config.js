@@ -75,9 +75,11 @@ window.epc = {
 					return JSON.parse(epc.userProject());
 				},
 				callback:function(items){
-					$('#formbean_jobsStructure_id_picker').val(items[1].text);
+					var text = items[1].text;
+					$('#formbean_jobsStructure_id_picker').val(text.split(']')[1]);
 					$('input[name="formbean_jobsStructure_id"]').val(items[1].value);
 					$('input[name="formbean_jobsStructure_wbs_project_projectname"]').val(items[0].text);
+					$('#formui_formbean_jobsStructure_wbs_project_projectcode').find('div').html(text.split(']')[0].substr(1));
 				}
 			}],
 		},
