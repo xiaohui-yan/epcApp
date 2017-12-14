@@ -6,10 +6,7 @@ window.epc = {
 			new:{
 				title:'新建工时',
 				formname:'New',
-				btn:[{
-					title:'保存',
-					fns:'callback_fn'
-				}]
+				btn:[]
 			},
 			edit:{
 				title:'编辑工时',
@@ -95,6 +92,9 @@ window.epc = {
 				btn:[{
 					title:'保存',
 					fns:'callback_fn'
+				},{
+					title:'提交',
+					fns:'submit_fn'
 				}]
 			},
 			edit:{
@@ -426,28 +426,41 @@ window.epc = {
 	},
 	clicked:function(webviewUrl,webviewId,title,typeObj){//App跳转方法
 		localStorage.setItem('webView',JSON.stringify(typeObj));
-		mui.openWindow({
+		var back = {//左上角返回箭头
+	        image:{//图片格式
+	            base64Data:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAb1BMVEUAAAAAev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8AAACubimgAAAAI3RSTlMAGfUTGfQTGPMSGPIYGhgaGBsXGxcbFxwXHBccFhwWHRYdHWufDPQAAAABYktHRACIBR1IAAAAB3RJTUUH4QETEBwooeTlkQAAAJVJREFUSMft1EkSgkAQRNFGUXFWHBDBibr/HTUwD5B/48Ig1y+io7u6MqUhf5hsNEY+j5hMgZ/FJ8Xc9ovos3T96utjbfqN/Nb0O/m96Uv5g+mP8ifTn+Ur01/ka9Nf5RvTt/I309/lH6Z/yr9Mn+Q71/MT8B34K/E58Enzv8R/K98HvnF8p3lr8F7izce7lbf3kJ/lDQp9HdBhgg3PAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE3LTAxLTE5VDE2OjI4OjQwKzA4OjAwpTDFwQAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxNy0wMS0xOVQxNjoyODo0MCswODowMNRtfX0AAAAASUVORK5CYII='//加载图片的Base64编码格式数据 base64Data 和 imgSRC 必须指定一个.否则不显示返回箭头
+	        }
+	    }
+		if(title == '首页'){
+			back = {};
+		}
+		mui.openWindowWithTitle({
 		  	url: webviewUrl,
 		  	id: webviewId,
 		  	styles: {                             // 窗口参数 参考5+规范中的WebviewStyle,也就是说WebviewStyle下的参数都可以在此设置
-				titleNView: {                       // 窗口的标题栏控件
-				  	titleText:title,                // 标题栏文字,当不设置此属性时，默认加载当前页面的标题，并自动更新页面的标题
-				  	titleColor:"#000",             // 字体颜色,颜色值格式为"#RRGGBB",默认值为"#000000"
-				  	titleSize:"17px",                 // 字体大小,默认17px
-				  	backgroundColor:"#ddd",        // 控件背景颜色,颜色值格式为"#RRGGBB",默认值为"#F7F7F7"
-				  	progress:{                        // 标题栏控件的进度条样式
-						color:"#007aff",                // 进度条颜色,默认值为"#00FF00"  
-						height:"1px"                    // 进度条高度,默认值为"2px"         
-				  	},
-			  	splitLine:{                       // 标题栏控件的底部分割线，类似borderBottom
-					color:"#CCCCCC",                // 分割线颜色,默认值为"#CCCCCC"  
-					height:"0px"                    // 分割线高度,默认值为"2px"
-			      }
-			    },
-			    button:{
-			    	
-			    }
-		  	},
+				statusbar: {//WebviewStatusbarStyles类型,窗口状态栏样式.仅在应用设置为沉浸式状态栏样式下有效,设置此属性后将自动保留系统状态栏区域不被Webview窗口占用(即Webview窗口非沉浸式样式显示).
+		            background: '#000'
+		       	},
+		  	}
+		},{
+		    title:{//标题配置
+		        text:title,//标题文字
+		        position:{ //绘制文本的目标区域，参考：http://www.html5plus.org/doc/zh_cn/nativeobj.html#plus.nativeObj.Rect
+		            top:0,
+		            left:0,
+		            width:"100%",
+		            height:"100%"
+		        },
+		        styles:{//绘制文本样式，参考：http://www.html5plus.org/doc/zh_cn/nativeobj.html#plus.nativeObj.TextStyles
+		            color:"#000000",
+		            align:"center",
+		            family:"'Helvetica Neue',Helvetica,sans-serif",
+		            size:"17px",
+		            style:"normal",
+		            weight:"normal",
+		        }
+		    },
+		    back:back
 		});
 		
 	},

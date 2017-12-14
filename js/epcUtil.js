@@ -159,7 +159,7 @@ window.epcUtil = {
 								obj.value.push({
 									id:$(this).val(),
 									text:$(this).next('label').html(),
-									checked:$(this).attr('checked')!=''?true:false
+									checked:($(this).attr('checked')!='' && typeof $(this).attr('checked')!='undefined')?true:false
 								});
 							})
 						}
@@ -186,7 +186,7 @@ window.epcUtil = {
 								obj.value.push({
 									id:$(this).val(),
 									text:$(this).text(),
-									selected:$(this).attr('selected')!=''?true:false
+									selected:($(this).attr('selected')!='' && typeof $(this).attr('selected')!='undefined')?true:false
 								})
 							})
 						}

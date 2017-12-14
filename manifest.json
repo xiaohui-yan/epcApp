@@ -1785,7 +1785,10 @@
 				"priority": 0
 			},
 			"epc/tab/tab.html": {
-				"resources": [],
+				"resources": [
+					"epc/sub-list/sub-list.html",
+					"epc/form/form.html"
+				],
 				"refer": [
 					"epc/data-list/data-list.html"
 				],

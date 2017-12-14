@@ -14,11 +14,4 @@ w.immersed=immersed;
 if(!immersed){
 	return;
 }
-$('header').css({
-	'margin-top':immersed+'px',
-});
-$('.mui-fullscreen').css({
-	'margin-top':immersed+'px',
-});
-
 })(window);
