@@ -1775,7 +1775,9 @@
 				"priority": 0
 			},
 			"epc/data-list/data-list.html": {
-				"resources": [],
+				"resources": [
+					"static/fonts/mui.ttf"
+				],
 				"refer": [
 					"epc/home.html",
 					"epc/tab/tab.html"

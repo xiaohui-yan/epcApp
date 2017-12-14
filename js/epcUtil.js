@@ -127,11 +127,12 @@ window.epcUtil = {
 					treenodeid:el.find('#_treeNodeId').val(),
 					treeNodeType:el.find('#_treeNodeType').val(),
 					formname:el.find('#_formname').val(),
+					componentid:el.find('#componentid').val(),
 					formsubmit:true,
 					//请假参数
-					actionExtension:'com.epc.epcemp.dailyLeave.startprocess',
-					workflowinfo:epc[point].btn[formbtn].processinsid,
-					buttonid:'btn_workflow_Submit',
+//					actionExtension:'com.epc.epcemp.dailyLeave.startprocess',
+//					workflowinfo:epc[point].btn[formbtn].processinsid,
+//					buttonid:'btn_workflow_Submit',
 				}
 				var formelement = el.find('.formelement');//首先便利所有的表单字段显示
 				formelement.each(function(){
@@ -257,6 +258,7 @@ window.epcUtil = {
 	//保存表单
 	saveForm:function(dialog,point,mainformid,json){
 		dialog.loading.open('保存数据');
+		alert(json.componentid);
 		console.log(JSON.stringify(json));
 		mui.ajax(epc.root+'/extension/extensionAction.action?'+$('#form').serialize(),{
 			data:json,
@@ -283,7 +285,10 @@ window.epcUtil = {
 		});
 	},
 	//提交流程
-	submitForm:function(point,mainformid){
+	submitForm:function(dialog,point,mainformid,json){
+		this.saveForm(dialog,point,mainformid,json);
+		
+		
 		mui.ajax(epc.root+'/extension/extensionAction.action',{
 			data:{
 				extensionid:'com.epc.epcfoundation.extensions.ui.standardflow',

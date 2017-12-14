@@ -1,6 +1,6 @@
 window.epc = {
-	root:'http://emp.epc-china.com',
-	//root:'http://192.168.0.153:8080',
+	//root:'http://emp.epc-china.com',
+	root:'http://192.168.0.153:8080',
 	workHours:{//工时
 		btn:{
 			new:{
@@ -75,11 +75,11 @@ window.epc = {
 					return JSON.parse(epc.userProject());
 				},
 				callback:function(items){
-					var text = items[1].text;
-					$('#formbean_jobsStructure_id_picker').val(text.split(']')[1]);
+					var text = items[0].text;
+					$('#formbean_jobsStructure_id_picker').val(items[1].text);
 					$('input[name="formbean_jobsStructure_id"]').val(items[1].value);
-					$('input[name="formbean_jobsStructure_wbs_project_projectname"]').val(items[0].text);
-					$('#formui_formbean_jobsStructure_wbs_project_projectcode').find('div').html(text.split(']')[0].substr(1));
+					$('input[name="formbean_jobsStructure_wbs_project_projectname"]').val(text.split(']')[1]);
+					$('input[name="formbean_jobsStructure_wbs_project_projectcode"]').val(text.split(']')[0].substr(1));
 				}
 			}],
 		},
