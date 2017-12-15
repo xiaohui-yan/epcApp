@@ -8,6 +8,7 @@ window.epcUtil = {
 	//初始化加载数据
 	renderStartFlow:function(formtemp,tabList){
 		var json = {};
+		
 		tabList.forEach(function(value){
 			if(value.active == true){
 					mui.ajax(epc.root+'/extension/extensionAction.action',{
@@ -32,6 +33,7 @@ window.epcUtil = {
 							}
 							try{
 								json = JSON.parse($.trim(jsons));//eval("(" + jsons + ")");//JSON.parse($.trim(json));//获取json数据
+								json.formname = formtemp.formname;
 							}catch(e){
 								console.log(e);
 							}
@@ -61,17 +63,6 @@ window.epcUtil = {
 			success:function(data){
 				//开始解析dom数据
 				var el = $(data);
-				json = {
-					componentid:el.find('#componentid').val(),
-					beanid:el.find('#_beanid').val(),
-					entityType:el.find('#_entityType').val(),
-					functionpointid:el.find('#_functionpointid').val(),
-					functiongroupid:el.find('#_functiongroupid').val(),
-					treenodeid:el.find('#_treeNodeId').val(),
-					treeNodeType:el.find('#_treeNodeType').val(),
-					formname:el.find('#_formname').val(),
-					processinsid:el.find('input[name="workflowinfo"]').val(),
-				}
 				el.find('input[type="hidden"]').each(function(){//首先便利所有的hidden表单字段显示
 					var obj = {};
 					obj.type  = 'hidden';	 
@@ -100,8 +91,8 @@ window.epcUtil = {
 							obj.type = 'TIMEPICKER';	
 						}else if($(this).find('input').attr("type") == "radio"){
 							obj.type = 'radio';	
+							obj.value = [];
 							$(this).find('input').each(function(){								
-								obj.value = [];
 								obj.value.push({
 									id:$(this).val(),
 									text:$(this).next('label').html(),
@@ -155,11 +146,14 @@ window.epcUtil = {
 	renderSubList:function(dialog,point,mainformid,parms){
 		var objArr = [];
 		var data = epc[point].form.tabList[1].action;
-		data.formname = parms.formname;
-		data.selrowid = mainformid;
-		data.mainformid = mainformid;
+		parms.extensionid = data.extensionid;
+		parms.mainformid = parms.selrowid ;
+		parms.subgridname = data.subgridname;
+		parms._projectid = -1;
+		parms.async = false;
+		parms.rows = 999;
 		mui.ajax(epc.root+'/extension/extensionAction.action',{
-			data:data,
+			data:parms,
 			type:'get',//HTTP请求类型 
 			dataType:'html',
 			async: false,
@@ -167,6 +161,7 @@ window.epcUtil = {
 			success:function(data){
 				//开始解析dom数据
 				var taskJson = $(data).find('#jsondata').text();
+				
 				try{
 					taskJson = eval("(" + taskJson + ")");//JSON.parse($.trim(json));//获取json数据
 				}catch(e){
@@ -235,6 +230,35 @@ window.epcUtil = {
 		mui.ajax(epc.root+'/extension/extensionAction.action?'+$('#form').serialize(),{
 			data:{
 				extensionid:'com.epc.epcfoundation.extensions.ui.form2',
+				buttonid:'btn_workflow_Submit',
+				_projectid:-1
+			},
+			type:'post',//HTTP请求类型
+			dataType:'html',
+			timeout:12000,//超时时间设置为10秒
+			success:function(data){
+				//开始解析dom数据
+            	dialog.loading.close();
+            	console.log(data);
+            	//{"status":"END","alertMsg":"操作成功","ms":750}
+				dialog.toast('提交完毕！', 'success', 1000);
+				setTimeout(function(){
+					epcTool.clicked('../data-list/data-list.html',epcTool.random(true),epc[point].title,{type:point});
+				},500)
+			},
+			error:function(xhr,type,errorThrown){
+				//异常处理；
+				dialog.loading.close(); 
+				dialog.toast('流程提交失败！', 'error', 1000);
+			}
+		});
+	},
+	//提交待办
+	submitTaskForm:function(dialog,point,mainformid,json){
+		console.log($('#form').serialize());
+		mui.ajax(epc.root+'/extension/extensionAction.action?'+$('#form').serialize(),{
+			data:{
+				extensionid:'com.epc.epcfoundation.extensions.ui.standardflow',
 				buttonid:'btn_workflow_Submit',
 				_projectid:-1
 			},

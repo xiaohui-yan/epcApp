@@ -73,6 +73,9 @@
 				},
 				submit_fn:function(){  //提交 
 					epcUtil.submitForm(dialog,currType,mainformid,obj.json);
+				},
+				submit_task_fn:function(){//task 提交
+					epcUtil.submitTaskForm(dialog,currType,mainformid,obj.json);
 				}
 			} 
 			//添加渲染完毕的回调

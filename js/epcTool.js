@@ -113,7 +113,7 @@ window.epcTool = {
 		return plus.storage.getItem("epcUsers");
 	},
 	epcProject:function(){//缓存项目
-		if(plus.storage.getItem("epcProject") == null){
+		if(plus.storage.getItem("epcProjects") == null){
 			var epcProjects_json = [];
 			mui.ajax(epc.root+'/extension/extensionAction.action',{
 				data:{
@@ -168,7 +168,7 @@ window.epcTool = {
 			dataType:'html',
 			async:false,
 			timeout:10000,//超时时间设置为10秒；
-			success:function(data){
+			success:function(data){				
 				dialog.loading.close();
 				var content = $(data).find('#template');
 				if(content!=null){
@@ -218,8 +218,8 @@ window.epcTool = {
                 text:'返回',
             }]
 		}
-		mui.openWindow({
-			url: webviewUrl,
+		mui.openWindowWithTitle({
+		  	url: webviewUrl,
 		  	id: webviewId,
 		  	styles: {                             // 窗口参数 参考5+规范中的WebviewStyle,也就是说WebviewStyle下的参数都可以在此设置
 				titleNView: {                       // 窗口的标题栏控件

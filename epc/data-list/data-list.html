@@ -207,10 +207,14 @@
 				}
 			});
 			epcTool.showActionSheet(btnname,values);
-		}).on('tap', '.mui-table-view-cell', function(event) {
+		});
+		mui('.mui-table-view').on('tap', '.mui-table-view-cell', function(event) {
 			epcTool.loadBtn(currType,this.id).forEach(function(value){
 				if (value.btnTitle.trim() == '查看')
 					viewForm(value);
+				else if(value.btnTitle.trim() == '执行任务')
+					editForm(value);
+					
 			});
 		});
 		/**
