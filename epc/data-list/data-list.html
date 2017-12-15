@@ -66,6 +66,7 @@
 	<script src="../../static/js/angular.js"></script> 
 	<script src="../../js/config.js"></script>
 	<script src="../../js/epcUtil.js"></script>
+	<script src="../../js/epcTool.js"></script>
 	<script type="text/javascript"> 
 		var util = window.YDUI.util;
 		var dialog = window.YDUI.dialog;
@@ -155,38 +156,6 @@
 				}
 			});
 		}
-//		function loadBtn(obj,htm,formname,currType){
-//			mui.ajax(epc.root+'/extension/extensionAction.action',{
-//				data:{
-//					extensionid:    'com.epc.epcfoundation.extensions.ui.buttons',
-//					functionpointid: epc[currType].list.functionpointid,
-//					functiongroupid:epc[currType].list.functiongroupid,
-//					_projectid:-1,
-//				}, 
-//				type:'post',//HTTP请求类型
-//				dataType:'html',
-//				timeout:10000,//超时时间设置为10秒；
-//				success:function(data){
-//					dialog.loading.close();
-//					var json = $(data).find('#template').html();
-//					var btn = $('#add');
-//					var $div = $.trim(json);
-//					if($div!=null){
-//						var formname = $($div).attr("p:formname");
-//						btn.html("<i   class='iconfont icon-tianjia' style='font-size:30px;color:#04BE02'></i>");
-//						btn.click(function(){
-//							window.newForm(formname);
-//						});
-//					}
-//				},
-//				error:function(xhr,type,errorThrown){
-//					//异常处理；
-//					dialog.loading.close();
-//					dialog.toast('按钮异常！', 'error', 1000);
-//				}
-//			});
-//		
-//		}
 		window.editForm = function(value){
 			epc.clicked('../tab/tab.html',epc.random(true),epc[currType].btn.edit.title,{mainformid:value.selrowid,type:currType,formbtn:'edit',formtemp:value});
 		}
@@ -229,7 +198,7 @@
 			var self = this;
 			var btnname = [{title:'操作',style:"destructive"}];
 			var values = [];
-			epc.loadBtn(currType,self.id).forEach(function(value){
+			epcTool.loadBtn(currType,self.id).forEach(function(value){
 				if (value.btnTitle.trim() == '修改' || value.btnTitle.trim() == '删除') {
 					btnname.push({
 						title:value.btnTitle
@@ -238,7 +207,7 @@
 				
 				}
 			});
-			epc.showActionSheet(btnname,values);
+			epcTool.showActionSheet(btnname,values);
 		});
 		/**
 		 * 上拉加载具体业务实现

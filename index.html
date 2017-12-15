@@ -12,6 +12,7 @@
 		<link rel="stylesheet" href="static/css/mui.min.css">
 		<script src="static/js/ydui.flexible.js"></script> 
 		<script src="js/config.js"></script>
+		<script src="js/epcTool.js"></script>
 		<style type="text/css"> 
 			p{
 				color:#fff;
@@ -126,7 +127,7 @@
 							plus.storage.setItem( "password",user_password);
 							//加载首页
 							//window.location.href = 'epc/home.html';
-							epc.clicked('epc/home.html','121212','首页');
+							epcTool.clicked('epc/home.html','121212','首页');
 						}else{ 
 							dialog.toast($(data).find("#login_").find('span').text(), 'error', 1000); 
 						}

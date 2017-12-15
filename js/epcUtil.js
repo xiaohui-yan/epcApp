@@ -1,62 +1,9 @@
 window.epcUtil = {
 	//加载data-list
 	renderDataList:function(dialog,point,page,rows){
-		var data = epc[point].list;
-		data.page = page;
-		data.rows = rows;
-		var listObj = {
-			icon:data.iconfont,
-			objArr:[],
-		};
-		mui.ajax(epc.root+'/extension/extensionAction.action',{
-			data:data, 
-			type:'post',//HTTP请求类型
-			dataType:'html',
-			timeout:10000,//超时时间设置为10秒；
-			async: false,
-			success:function(data){
-				dialog.loading.close();
-				var json = $(data).find('#jsondata').text();
-				if(typeof json == 'undefined'){
-					dialog.toast('读取数据异常！', 'error', 1000);
-				}
-				try{
-					json = eval("(" + json + ")");//JSON.parse($.trim(json));//获取json数据
-				}catch(e){
-					console.log(e)
-					dialog.toast('json解析异常', 'error', 2000);
-					return false;
-				}  
-				var rows    = json.datastr.rows; 
-				var page 	= json.datastr.page;
-				var total 	= json.datastr.total;
-				if(total > 1){
-					$('#page').html(page);
-					$('#total').html(total);
-				}
-				if(rows.length == 0){
-					dialog.alert('暂无相关数据！');
-				}
-				rows.forEach(function(row){
-					listObj.objArr.push({
-						cell1:row.cell[epc[point].list.grid[0]],
-						cell2:row.cell[epc[point].list.grid[1]],
-						cell3:row.cell[epc[point].list.grid[2]],
-						cell4:row.cell[epc[point].list.grid[3]],
-					})
-				});
-				/*if(total == page){
-					mui('#pullrefresh').pullRefresh().endPullupToRefresh(true); //参数为true代表没有更多数据了。
-				}else{
-				    mui('#pullrefresh').pullRefresh().endPullupToRefresh(false); //参数为true代表没有更多数据了。
-				}*/	
-			},
-			error:function(xhr,type,errorThrown){
-				dialog.loading.close();
-				dialog.toast('网络异常！', 'error', 1000);
-			}
-		});
-		return listObj;
+		/**
+		 * 待实现
+		 */
 	},
 	//初始化加载数据
 	renderStartFlow:function(formtemp,tabList){

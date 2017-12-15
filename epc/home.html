@@ -10,6 +10,7 @@
 	<link rel="stylesheet" href="../static/css/mui.min.css">
 	<script src="../static/js/ydui.flexible.js"></script> 
 	<script src="../js/config.js"></script>
+	<script src="../js/epcTool.js"></script>
 	<style>
 		.mui-media-body{
 			font-size:13px;
@@ -55,19 +56,19 @@
 			    <div class="slider-pagination"></div>
 			</div>
 			<div class="m-grids-4">
-	            <a class="grids-item" onclick="epc.clicked('data-list/data-list.html',epc.random(true),'我的工时',{type:'workHours'});"> 
+	            <a class="grids-item" onclick="epcTool.clicked('data-list/data-list.html',epcTool.random(true),'我的工时',{type:'workHours'});"> 
 	                <div class="grids-icon">
 	                    <i class="iconfont icon-shi" style='font-size:34px'></i>
 	                </div>
 	                <div class="grids-txt">工时</div>
 	            </a>
-	            <a class="grids-item" onclick="epc.clicked('data-list/data-list.html',epc.random(true),'请假申请',{type:'leave'});">
+	            <a class="grids-item" onclick="epcTool.clicked('data-list/data-list.html',epcTool.random(true),'请假申请',{type:'leave'});">
 	                <div class="grids-icon">
 	                    <i class="iconfont icon-jia" style='font-size:30px;'></i>
 	                </div>
 	                <div class="grids-txt">请假</div>
 	            </a>
-	            <a class="grids-item" onclick="epc.clicked('overTimeList.html',epc.random(true),'加班申请');">
+	            <a class="grids-item" onclick="epcTool.clicked('overTimeList.html',epcTool.random(true),'加班申请');">
 	                <div class="grids-icon">
 	                    <i class="iconfont icon-jiaban" style='font-size:30px;'></i>
 	                </div>
@@ -103,7 +104,7 @@
 	                </div>
 	                <div class="grids-txt">通讯录</div>
 	            </a>
-	            <a class="grids-item" onclick="epc.clicked('data-list/data-list.html',epc.random(true),'我的待办',{type:'task'});"> 
+	            <a class="grids-item" onclick="epcTool.clicked('data-list/data-list.html',epcTool.random(true),'我的待办',{type:'task'});"> 
 	                <div class="grids-icon">
 	                    <i class="iconfont icon-daiban" style='font-size:30px'></i>
 	                    <sup>
@@ -181,7 +182,7 @@
 		    if(e.index==0){
 		    	//执行mui封装好的窗口关闭逻辑；
 		    	plus.storage.removeItem("auto")
-		    	epc.clicked('../index.html','655665','登录');
+		    	epcTool.clicked('../index.html','655665','登录');
 		    }
 		  });
 		}
@@ -192,12 +193,12 @@
 			    	//执行mui封装好的窗口关闭逻辑；
 			    	plus.storage.clear();
 			    	plus.storage.setItem("lauchFlag",true);
-			    	epc.clicked('../index.html','1223113123','登录');
+			    	epcTool.clicked('../index.html','1223113123','登录');
 			    }
 			    if(e.index==1){
 			    	//执行mui封装好的窗口关闭逻辑；
 			    	plus.storage.removeItem("auto")
-			    	epc.clicked('../index.html','687678','登录');
+			    	epcTool.clicked('../index.html','687678','登录');
 			    }
 		   	});
 		}
