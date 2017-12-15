@@ -41,6 +41,7 @@
 	var formbtn = '' ;
 	var mainformid ='';
 	var curWebview = '';
+	var tablelist = '';
 	mui.plusReady(function(){
 		curWebview = plus.webview.currentWebview();
 	})
@@ -51,13 +52,15 @@
 			formtemp = webView.formtemp;
 			formbtn = webView.formbtn;
 			mainformid = webView.mainformid;
+			tablelist = epc[currType].form.tabList;
 		}
 	var yduiUtil = window.YDUI.util;	
 	var app = angular.module('epcApp',[])
 		.controller('tabsCtrl',['$scope',function($scope){			
-			$scope.tabs = epc[currType].form.tabList;
+			$scope.tabs = tablelist;
 		}]).controller('formCtrl',['$scope',function($scope){
-			var obj = epcUtil.renderForm(currType,mainformid,formbtn);
+			var parms = epcUtil.renderStartFlow(formtemp,tablelist);
+			var obj = epcUtil.renderForm(currType,mainformid,formbtn,parms);
 			$scope.fields = obj.field;
 			$scope.btns   = obj.btns;
 			$scope.fns = {
@@ -68,7 +71,7 @@
 					epcUtil.saveForm(dialog,currType,mainformid,obj.json);
 				},
 				submit_fn:function(){  //提交 
-					
+					epcUtil.submitForm(dialog,currType,mainformid,obj.json);
 				}
 			} 
 			//添加渲染完毕的回调

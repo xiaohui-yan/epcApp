@@ -1,12 +1,16 @@
 window.epc = {
 	//root:'http://emp.epc-china.com',
+	//root:'http://192.168.0.218',
 	root:'http://192.168.0.153:8080',
 	workHours:{//工时
 		btn:{
 			new:{
 				title:'新建工时',
 				formname:'New',
-				btn:[]
+				btn:[{
+					title:'保存',
+					fns:'callback_fn'
+				}]
 			},
 			edit:{
 				title:'编辑工时',
@@ -95,7 +99,7 @@ window.epc = {
 				},{
 					title:'提交',
 					fns:'submit_fn'
-				},]
+				}]
 			},
 			edit:{
 				title:'编辑请假单',
@@ -104,6 +108,9 @@ window.epc = {
 				btn:[{
 					title:'保存',
 					fns:'callback_fn'
+				},{
+					title:'提交',
+					fns:'submit_fn'
 				}]
 			},
 			view:{
@@ -304,7 +311,7 @@ window.epc = {
 			data:{
 				extensionid:    'com.epc.epcfoundation.extensions.ui.buttons',
 				functionpointid:epc[currTypeTemp].list.functionpointid,
-				functiongroupid:epc[currTypeTemp].list.functiongroupid,
+				functiongroupid:epc[currTypeTemp].list.functiongroupid,				
 				selrowid :selrowid,
 				_projectid:-1,
 			}, 
@@ -322,7 +329,8 @@ window.epc = {
 							formname:$(this).attr("p:formname"),
 							componentid:$(this).attr("p:componentid"),
 							actionextension:$(this).attr("p:actionextension"),
-							functiongroupid:$(this).attr("functiongroupid")
+							functiongroupid:$(this).attr("functiongroupid"),
+							selrowid:selrowid
 						});
 					});
 				}
@@ -375,10 +383,12 @@ window.epc = {
 		}
 		return plus.storage.getItem("epcUsers");
 	},
-	showActionSheet :function (bts,self){
+	showActionSheet :function (bts,values){
 		plus.nativeUI.actionSheet({cancel:"取消",buttons:bts},function(e){
-			if(bts[e.index-1].title == '修改'){
-				editForm(self);
+			
+
+			if(bts[e.index-1].title == '修改'){	
+				editForm(values[e.index-2]);
 			}else if(bts[e.index-1].title == '删除'){
 				//删除
 			}
@@ -445,7 +455,7 @@ window.epc = {
 		},{
 			id:webviewId+"title",//导航栏ID,默认为title,若不指定将会使用WebviewOptions中指定的 [webviewID+ "_title"] 作为id
 		    height:"50px",//导航栏高度值
-		    backgroundColor:"#ddd",//导航栏背景色
+		    backgroundColor:"#444",//导航栏背景色
 		    bottomBorderColor:"#fff",//底部边线颜色
 		    title:{//标题配置
 		        text:title,//标题文字
@@ -456,7 +466,7 @@ window.epc = {
 		            height:"100%"
 		        },
 		        styles:{//绘制文本样式，参考：http://www.html5plus.org/doc/zh_cn/nativeobj.html#plus.nativeObj.TextStyles
-		            color:"#000000",
+		            color:"#ffffff",
 		            align:"center",
 		            family:"'Helvetica Neue',Helvetica,sans-serif",
 		            size:"17px",

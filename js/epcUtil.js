@@ -59,19 +59,19 @@ window.epcUtil = {
 		return listObj;
 	},
 	//初始化加载数据
-	renderStartFlow:function(){
-		/*tabList = epc[currType].form.tabList;
+	renderStartFlow:function(formtemp,tabList){
+		var json = {};
 		tabList.forEach(function(value){
 			if(value.active == true){
 					mui.ajax(epc.root+'/extension/extensionAction.action',{
 						data:{
-							extensionid:value.action.extensionid,
+							extensionid:'com.epc.epcfoundation.extensions.ui.standardflow',
 							functionpointid:value.action.functionpointid,
-							componentid:formtemp.componentid==null?value.action.componentid+formtemp.formname:formtemp.componentid,
+							componentid:(formtemp.componentid == null && typeof  formtemp.componentid=='undefined')?value.action.componentid+formtemp.formname:formtemp.componentid,
 							formname:formtemp.formname,
 							functiongroupid:formtemp.functiongroupid,
 							actionextension:formtemp.actionextension,
-							selrowid:mainformid,
+							selrowid:formtemp.selrowid,
 							ajaxtype:'post', 
 						},
 						type:'get',//HTTP请求类型
@@ -84,7 +84,7 @@ window.epcUtil = {
 								dialog.toast('读取数据异常！', 'error', 1000);
 							}
 							try{
-								window.json = JSON.parse($.trim(jsons));//eval("(" + jsons + ")");//JSON.parse($.trim(json));//获取json数据
+								json = JSON.parse($.trim(jsons));//eval("(" + jsons + ")");//JSON.parse($.trim(json));//获取json数据
 							}catch(e){
 								console.log(e);
 							}
@@ -96,21 +96,17 @@ window.epcUtil = {
 				});
 			}
 		});
-		*/
+		return json;
 	},
 	//加载表单
-	renderForm:function(point,mainformid,formbtn){
+	renderForm:function(point,mainformid,formbtn,parms){
 		var fields = {};
 		var json = {};
 		var objArr = [];
 		var btnArr = epc[point].btn[formbtn].btn;//获取配置按钮信息
-		var data = epc[point].form.tabList[0].action;
-		data.formname     = epc[point].btn[formbtn].formname;
-		data.componentid  = epc[point].btn[formbtn].componentid;
-		data.processinsid = epc[point].btn[formbtn].processinsid;
-		data.selrowid = mainformid;
+		parms.extensionid='com.epc.epcfoundation.extensions.ui.form2';
 		mui.ajax(epc.root+'/extension/extensionAction.action',{
-			data:data,
+			data:parms, 
 			type:'get',//HTTP请求类型
 			dataType:'html',
 			async: false,
@@ -119,7 +115,7 @@ window.epcUtil = {
 				//开始解析dom数据
 				var el = $(data);
 				json = {
-					extensionid:'com.epc.epcfoundation.extensions.ui.form2',
+					componentid:el.find('#componentid').val(),
 					beanid:el.find('#_beanid').val(),
 					entityType:el.find('#_entityType').val(),
 					functionpointid:el.find('#_functionpointid').val(),
@@ -127,14 +123,17 @@ window.epcUtil = {
 					treenodeid:el.find('#_treeNodeId').val(),
 					treeNodeType:el.find('#_treeNodeType').val(),
 					formname:el.find('#_formname').val(),
-					componentid:el.find('#componentid').val(),
-					formsubmit:true,
-					//请假参数
-//					actionExtension:'com.epc.epcemp.dailyLeave.startprocess',
-//					workflowinfo:epc[point].btn[formbtn].processinsid,
-//					buttonid:'btn_workflow_Submit',
+					processinsid:el.find('input[name="workflowinfo"]').val(),
 				}
-				var formelement = el.find('.formelement');//首先便利所有的表单字段显示
+				el.find('input[type="hidden"]').each(function(){//首先便利所有的hidden表单字段显示
+					var obj = {};
+					obj.type  = 'hidden';	 
+					obj.name  =  $(this).attr("name");
+					obj.value =  $(this).val();
+					obj.title =  '';
+					objArr.push(obj);
+				});
+				var formelement = el.find('.formelement');//其次便利所有的表单字段显示
 				formelement.each(function(){
 					//过滤字表
 					if($(this).attr("uitype") == "INNERSUBGRID")return;
@@ -154,14 +153,15 @@ window.epcUtil = {
 							obj.type = 'TIMEPICKER';	
 						}else if($(this).find('input').attr("type") == "radio"){
 							obj.type = 'radio';	
-							$(this).find('input').each(function(){
+							$(this).find('input').each(function(){								
 								obj.value = [];
 								obj.value.push({
 									id:$(this).val(),
 									text:$(this).next('label').html(),
 									checked:($(this).attr('checked')!='' && typeof $(this).attr('checked')!='undefined')?true:false
 								});
-							})
+							});
+							console.log(JSON.stringify(obj)+"000000000");
 						}
 					}else if($(this).find('textarea').length > 0){//textarea
 						obj.type = 'textarea';
@@ -214,7 +214,7 @@ window.epcUtil = {
 		data.mainformid = mainformid;
 		mui.ajax(epc.root+'/extension/extensionAction.action',{
 			data:data,
-			type:'get',//HTTP请求类型
+			type:'get',//HTTP请求类型 
 			dataType:'html',
 			async: false,
 			timeout:6000,//超时时间设置为10秒
@@ -255,14 +255,14 @@ window.epcUtil = {
 		});
 		return objArr;
 	},
-	//保存表单
+	//保存表单 
 	saveForm:function(dialog,point,mainformid,json){
 		dialog.loading.open('保存数据');
-		alert(json.componentid);
-		console.log(JSON.stringify(json));
 		mui.ajax(epc.root+'/extension/extensionAction.action?'+$('#form').serialize(),{
-			data:json,
-			type:'get',//HTTP请求类型
+			data:{
+				extensionid:'com.epc.epcfoundation.extensions.ui.form2'
+			},
+			type:'post',//HTTP请求类型
 			dataType:'html',
 			timeout:6000,//超时时间设置为10秒
 			success:function(data){
@@ -277,7 +277,7 @@ window.epcUtil = {
 						epc.clicked('../data-list/data-list.html',epc.random(true),'我的工时',{type:point})
 					},500)
 				}
-			},
+			}, 
 			error:function(xhr,type,errorThrown){
 				dialog.loading.close(); 
 				dialog.toast('保存数据失败！', 'error', 1000);
@@ -286,44 +286,24 @@ window.epcUtil = {
 	},
 	//提交流程
 	submitForm:function(dialog,point,mainformid,json){
-		this.saveForm(dialog,point,mainformid,json);
-		
-		
-		mui.ajax(epc.root+'/extension/extensionAction.action',{
+		mui.ajax(epc.root+'/extension/extensionAction.action?'+$('#form').serialize(),{
 			data:{
-				extensionid:'com.epc.epcfoundation.extensions.ui.standardflow',
-				processinsid:json.processinsid,
-				formname:json.formname,
-				loadformflow:true,
-				functionpointid:json.functionpointid,
-				functiongroupid:json.functiongroupid,
-				functionid_settitle:'com.epc.epcfoundation.extension.ui.tabpanel_settitle',
-				btnid:'btn_workflow_Submit',
-				componentid:json.componentid,
-				isSubTreeGrid:false,
-				selrowid:json.selrowid,
-				ajaxtype:'post',
-				status:'FLOWING',
-				beanid:json.selrowid,
-				workflowinfo:json.processinsid,
-				_comment:_comment,
-				_wfNextUser:nextUser,
-				_decision:_decision,
-				buttonname:'SaveAndClose',
-				_reqtype:'post',
-				
+				extensionid:'com.epc.epcfoundation.extensions.ui.form2',
+				buttonid:'btn_workflow_Submit',
+				_projectid:-1
 			},
-			type:'get',//HTTP请求类型
+			type:'post',//HTTP请求类型
 			dataType:'html',
 			timeout:12000,//超时时间设置为10秒
 			success:function(data){
 				//开始解析dom数据
             	dialog.loading.close();
+            	console.log(data);
             	//{"status":"END","alertMsg":"操作成功","ms":750}
 				dialog.toast('提交完毕！', 'success', 1000);
 				setTimeout(function(){
-					window.location.href = 'taskList.html';
-				},1000)
+					epc.clicked('../data-list/data-list.html',epc.random(true),'我的工时',{type:point})
+				},500)
 			},
 			error:function(xhr,type,errorThrown){
 				//异常处理；

@@ -2,7 +2,8 @@
 	<div class="m-cell" >
 		<form id='form'>
 			<div class="cell-item" ng-repeat = 'field in fields' on-finish-render>
-		        <div class="cell-left">
+				<input ng-if=' field.type == "hidden" ' type = 'hidden' value='{{field.value}}' name="{{field.name}}"/>
+		        <div class="cell-left" ng-if=' field.type != "hidden" '>
 		        	<span style='color:red' ng-if='field.must == "*" '>{{field.must}}</span>
 		        	{{field.title}} : &nbsp;
 		        </div>
@@ -32,7 +33,7 @@
 					    <label class="cell-item" ng-repeat = 'radio in field.value'>
 					        <span class="cell-left">{{radio.text}}</span>
 					        <label class="cell-right">
-					            <input type="radio" name="radio" value='{{radio.id}}' ng-checked = '{{radio.checked}}'/>
+					            <input type="radio" name="{{field.name}}" value='{{radio.id}}' ng-checked = '{{radio.checked}}'/>
 					            <i class="cell-radio-icon"></i>
 					        </label>
 					    </label>
