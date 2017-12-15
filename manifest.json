@@ -110,9 +110,9 @@
     "plus": {
     	"launchwebview": {
             "navigationbar": {
-               "backgroundcolor": "#ddd",
+               "backgroundcolor": "#000",
                "titletext": "登录",
-               "titlecolor": "#000"
+               "titlecolor": "#fff"
             }
         },
         "splashscreen": {

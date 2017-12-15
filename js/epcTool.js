@@ -197,7 +197,7 @@ window.epcTool = {
 			if(bts[e.index-1].title == '修改'){	
 				editForm(values[e.index-2]);
 			}else if(bts[e.index-1].title == '删除'){
-				//删除
+				delForm(values[e.index-2]);
 			}
 		});
 	},
@@ -222,7 +222,7 @@ window.epcTool = {
 		},{
 			id:webviewId+"title",//导航栏ID,默认为title,若不指定将会使用WebviewOptions中指定的 [webviewID+ "_title"] 作为id
 		    height:"50px",//导航栏高度值
-		    backgroundColor:"#444",//导航栏背景色
+		    backgroundColor:"#000",//导航栏背景色
 		    bottomBorderColor:"#fff",//底部边线颜色
 		    title:{//标题配置
 		        text:title,//标题文字
@@ -248,4 +248,11 @@ window.epcTool = {
 	random:function(flag){
 		return flag == false ?'999999': Math.random();
 	},
+	
+	init:function(){
+		this.userProject();
+		this.epcUsers();
+		this.epcProject();
+	}
 }
+

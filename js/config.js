@@ -3,10 +3,10 @@ window.epc = {
 	//root:'http://192.168.0.218',
 	root:'http://192.168.0.153:8080',
 	workHours:{//工时
+		title:'我的工时',
 		btn:{
 			new:{
 				title:'新建工时',
-				formname:'New',
 				btn:[{
 					title:'保存',
 					fns:'callback_fn'
@@ -14,7 +14,6 @@ window.epc = {
 			},
 			edit:{
 				title:'编辑工时',
-				formname:'Modify',
 				btn:[{
 					title:'保存',
 					fns:'callback_fn'
@@ -22,7 +21,6 @@ window.epc = {
 			},
 			view:{
 				title:'查看工时',
-				formname:'View',
 				btn:[{
 					title:'关闭',
 					fns:'close_fn'
@@ -48,10 +46,7 @@ window.epc = {
 				show:true,
 				tempUrl:'../form/form.html',
 				action:{
-					extensionid:'com.epc.epcfoundation.extensions.ui.form2',
 					functionpointid:'com.epc.epcemp.workHours',
-					functiongroupid:'4028809a4153ceb0014153d300250002',
-					_projectid:-1
 				},
 			},{
 				title:'未录入工时',
@@ -87,12 +82,10 @@ window.epc = {
 	},
 	
 	leave:{//请假
+		title:'请假申请',
 		btn:{
 			new:{
 				title:'请假申请',
-				formname:'btn_new',
-				componentid:'dailyLeave.dailyLeave.dailyLeave_new',
-				processinsid	:'wfinfo=emp_dailyLeave,start',
 				btn:[{
 					title:'保存',
 					fns:'callback_fn'
@@ -103,8 +96,6 @@ window.epc = {
 			},
 			edit:{
 				title:'编辑请假单',
-				formname:'btn_edit',
-				componentid:'dailyLeave.dailyLeave.dailyLeave_modify',
 				btn:[{
 					title:'保存',
 					fns:'callback_fn'
@@ -115,8 +106,6 @@ window.epc = {
 			},
 			view:{
 				title:'查看请假单',
-				formname:'btn_view',
-				componentid:'dailyLeave.dailyLeave.dailyLeave_view',
 				btn:[{
 					title:'关闭',
 					fns:'close_fn'
@@ -137,12 +126,7 @@ window.epc = {
 				show:true,
 				tempUrl:'../form/form.html',
 				action:{
-					extensionid:'com.epc.epcfoundation.extensions.ui.form2',
 					functionpointid:'com.epc.epcdoc.custom.cusdocclassfunctionpoint',
-					functiongroupid:'4028809a45ac17270145ac672aba0030',
-					actionextension	:'wfinfo=emp_dailyLeave,start',
-					processinsid	:'wfinfo=emp_dailyLeave,start',
-					_projectid:-1
 				}
 			},{
 				title:'流程历史',
@@ -183,9 +167,8 @@ window.epc = {
 		},
 		
 	},
-	
-	
 	task:{//流程
+		title:'请我的待办',
 		btn:{
 			view:{
 				title:'我的待办',

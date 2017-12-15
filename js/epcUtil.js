@@ -14,7 +14,7 @@ window.epcUtil = {
 						data:{
 							extensionid:'com.epc.epcfoundation.extensions.ui.standardflow',
 							functionpointid:value.action.functionpointid,
-							componentid:(formtemp.componentid == null && typeof  formtemp.componentid=='undefined')?value.action.componentid+formtemp.formname:formtemp.componentid,
+							componentid:formtemp.componentid,
 							formname:formtemp.formname,
 							functiongroupid:formtemp.functiongroupid,
 							actionextension:formtemp.actionextension,
@@ -108,7 +108,6 @@ window.epcUtil = {
 									checked:($(this).attr('checked')!='' && typeof $(this).attr('checked')!='undefined')?true:false
 								});
 							});
-							console.log(JSON.stringify(obj)+"000000000");
 						}
 					}else if($(this).find('textarea').length > 0){//textarea
 						obj.type = 'textarea';
@@ -153,10 +152,10 @@ window.epcUtil = {
 		return fields;
 	},
 	//加载子表
-	renderSubList:function(dialog,point,mainformid,formbtn){
+	renderSubList:function(dialog,point,mainformid,parms){
 		var objArr = [];
 		var data = epc[point].form.tabList[1].action;
-		data.formname = epc[point].btn[formbtn].formname;
+		data.formname = parms.formname;
 		data.selrowid = mainformid;
 		data.mainformid = mainformid;
 		mui.ajax(epc.root+'/extension/extensionAction.action',{
@@ -221,7 +220,7 @@ window.epcUtil = {
 				}else{
 					dialog.toast('保存成功！', 'success', 1000);
 					setTimeout(function(){
-						epc.clicked('../data-list/data-list.html',epc.random(true),'我的工时',{type:point})
+						epcTool.clicked('../data-list/data-list.html',epcTool.random(true),epc[point].title,{type:point});
 					},500)
 				}
 			}, 
@@ -249,7 +248,7 @@ window.epcUtil = {
             	//{"status":"END","alertMsg":"操作成功","ms":750}
 				dialog.toast('提交完毕！', 'success', 1000);
 				setTimeout(function(){
-					epc.clicked('../data-list/data-list.html',epc.random(true),'我的工时',{type:point})
+					epcTool.clicked('../data-list/data-list.html',epcTool.random(true),epc[point].title,{type:point});
 				},500)
 			},
 			error:function(xhr,type,errorThrown){

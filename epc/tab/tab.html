@@ -59,9 +59,9 @@
 	var app = angular.module('epcApp',[])
 		.controller('tabsCtrl',['$scope',function($scope){			
 			$scope.tabs = tablelist;
-		}]).controller('formCtrl',['$scope',function($scope){
-			var parms = epcUtil.renderStartFlow(formtemp,tablelist);
-			var obj = epcUtil.renderForm(currType,mainformid,formbtn,parms);
+		}]).controller('formCtrl',['$scope','$rootScope',function($scope,$rootScope){
+			$rootScope.parms = epcUtil.renderStartFlow(formtemp,tablelist);
+			var obj = epcUtil.renderForm(currType,mainformid,formbtn,$rootScope.parms);
 			$scope.fields = obj.field;
 			$scope.btns   = obj.btns;
 			$scope.fns = {
@@ -114,8 +114,8 @@
 					});
 				})(mui);
 			});
-		}]).controller('subListCtrl',['$scope',function($scope){
-			$scope.grids = epcUtil.renderSubList(dialog,currType,mainformid,formbtn);
+		}]).controller('subListCtrl',['$scope','$rootScope',function($scope,$rootScope){
+			$scope.grids = epcUtil.renderSubList(dialog,currType,mainformid,$rootScope.parms);
 		}]).directive('onFinishRender',['$timeout', '$parse', function ($timeout, $parse) {
 		    return {
 		        restrict: 'A',

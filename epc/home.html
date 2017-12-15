@@ -138,9 +138,6 @@
 	        autoplay: 2000, 
 	        lazyLoad: true 
 	    });
-	    mui.plusReady(function(){
-	    	plus.storage.removeItem('workJson');
-	    });
 	    mui.ajax(epc.root+'/extension/extensionAction.action',{
 			data:{
 				extensionid:'com.epc.epcfoundation.extensions.ui.grid',

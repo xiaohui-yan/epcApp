@@ -27,19 +27,13 @@
 		</div>
 		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
 			<div class="mui-scroll">
-				<ul class="mui-table-view" id="OA_task_2">
+				<ul class="mui-table-view">
 					
 				</ul>
 			</div>
 		</div>
 	    <div id='temp' style='display:none'>
 			<li class="mui-table-view-cell" id=''>
-				<div class="mui-slider-right mui-disabled">
-					<a class="mui-btn mui-btn-yellow mui-icon mui-icon-compose" id='' onclick='window.editForm(this)'></a>
-					<a class="mui-btn mui-btn-red mui-icon  mui-icon-trash" id='' onclick='window.delForm(this)'></a>
-					
-
-				</div>
 				<div class="mui-slider-handle" onclick='window.viewForm(this)'>
 					<div class="mui-table-cell">
 						<div class="mui-media-object mui-pull-left">
@@ -81,7 +75,7 @@
 			addPro();
 		});
 		function addPro(){
-			epc.loadBtn(currType,'').forEach(function(value){
+			epcTool.loadBtn(currType,'').forEach(function(value){
 				var btn = $('#add');
 				btn.html("<i   class='iconfont icon-tianjia' style='font-size:30px;color:#04BE02'></i>");
 				btn.click(function(){
@@ -157,15 +151,15 @@
 			});
 		}
 		window.editForm = function(value){
-			epc.clicked('../tab/tab.html',epc.random(true),epc[currType].btn.edit.title,{mainformid:value.selrowid,type:currType,formbtn:'edit',formtemp:value});
+			epcTool.clicked('../tab/tab.html',epcTool.random(true),epc[currType].btn.edit.title,{mainformid:value.selrowid,type:currType,formbtn:'edit',formtemp:value});
 		}
 		window.newForm = function(value){
-			epc.clicked('../tab/tab.html',epc.random(true),epc[currType].btn.new.title,{type:currType,formbtn:'new',formtemp:value});
+			epcTool.clicked('../tab/tab.html',epcTool.random(true),epc[currType].btn.new.title,{type:currType,formbtn:'new',formtemp:value});
 		}
-		window.viewForm = function(o){
-			epc.clicked('../tab/tab.html',epc.random(true),epc[currType].btn.view.title,{mainformid:o.id,type:currType,formbtn:'view'});
+		window.viewForm = function(value){
+			epcTool.clicked('../tab/tab.html',epcTool.random(true),epc[currType].btn.view.title,{mainformid:value.selrowid,type:currType,formbtn:'view',formtemp:value});
 		}
-		window.delForm = function(o){
+		window.delForm = function(value){
 			dialog.confirm('提示', '确定删除？', function () {
                 dialog.toast('你点了确定', 'none', 1000);
             });
@@ -204,10 +198,14 @@
 						title:value.btnTitle
 					});
 					values.push(value);
-				
 				}
 			});
 			epcTool.showActionSheet(btnname,values);
+		}).on('tap', '.mui-table-view-cell', function(event) {
+			epcTool.loadBtn(currType,this.id).forEach(function(value){
+				if (value.btnTitle.trim() == '查看')
+					viewForm(value);
+			});
 		});
 		/**
 		 * 上拉加载具体业务实现
@@ -224,7 +222,7 @@
 			}
 		}
 		mui.back = function(){
-		    epc.clicked('../home.html','','首页');
+		    epcTool.clicked('../home.html','','首页');
 		}
 	</script>
 </html>
