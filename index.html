@@ -13,13 +13,14 @@
 		<script src="static/js/ydui.flexible.js"></script> 
 		<script src="js/config.js"></script>
 		<script src="js/epcTool.js"></script>
+		<script src="static/js/angular.js"></script> 
 		<style type="text/css"> 
 			p{
 				color:#fff;
 			} 
 		</style> 
 	</head>
-	<body>  
+	<body ng-App = 'epcApp' ng-controller = 'indexCtrl'>  
 		<div class="mui-content"  style="background: #fff;">
 			<div class="m-slider" id="J_Slider">
 			    <div class="slider-wrapper">
@@ -48,11 +49,11 @@
 			</div> 
 			<form class="mui-input-group" style="margin-top:30px;margin-bottom:20px;width:96%;margin-left:2%">
 			    <div class="mui-input-row">
-			        <label><i  class='iconfont icon-anonymous-iconfont' style="color:#007aff"></i></label>
+			        <label><i  class='iconfont icon-anonymous-iconfont' style="color:{{theme.color}}"></i></label>
 			    	<input id='no' type="text" value='' class="mui-input-clear" placeholder="请输入用户名"> 
 			    </div> 
-			    <div class="mui-input-row"> 
-			        <label><i  class='iconfont icon-mima' style="color:#007aff"></i></label>
+			    <div class="mui-input-row">  
+			        <label><i  class='iconfont icon-mima' style="color:{{theme.color}}"></i></label>
 			        <input id='key' type="password" value='' class="mui-input-password" placeholder="请输入密码">
 			    </div>
 			</form>
@@ -60,14 +61,14 @@
 			    <label class="cell-item">
 			        <span class="cell-left">自动登录</span>
 			        <span class="cell-right">
-			           	<div class="mui-switch mui-active mui-switch-blue" id='mySwitch'>
+			           	<div class="mui-switch mui-active mui-switch-blue" id='mySwitch' style='background:{{theme.color}};border-color:{{theme.color}}'>
 					  		<div class="mui-switch-handle"></div>
 						</div
 			        </span>
-			    </label>
+			    </label> 
 			</div>
 			<div class="mui-button-row">
-		        <button id='nosession' onclick='window.login()' style='border-radius:1px; width:96%;height:45px' type="button" class="mui-btn mui-btn-primary">
+		        <button id='nosession' onclick='window.login()' style='border-radius:1px; width:96%;height:45px;background:{{theme.color}};border-color: {{theme.color}};' type="button" class="mui-btn mui-btn-primary">
 		        	登录
 		        </button>
 		    </div> 
@@ -79,6 +80,18 @@
 		<script>  
 			var dialog = window.YDUI.dialog;
 			var util = window.YDUI.util;
+			/**
+			 * 
+			 */
+			angular.module('epcApp',[]).controller('indexCtrl',['$scope',function($scope){
+				epc.theme.forEach(function(theme){
+					if(theme.use){
+						$scope.theme = theme;
+						return false;
+					}
+				});
+				$('body').show();
+			}]);
 		    $('#J_Slider').slider({ 
 		        speed: 200,   
 		        autoplay: 2000, 

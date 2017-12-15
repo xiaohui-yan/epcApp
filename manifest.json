@@ -110,7 +110,7 @@
     "plus": {
     	"launchwebview": {
             "navigationbar": {
-               "backgroundcolor": "#000",
+               "backgroundcolor": "#D74B28",
                "titletext": "登录",
                "titlecolor": "#fff"
             }
@@ -490,7 +490,10 @@
 					"plus/setting.html",
 					"epc/home.html",
 					"static/js/config.js",
-					"js/update.js"
+					"js/update.js",
+					"js/epcTool.js",
+					"js/config.js",
+					"static/js/angular.js"
 				],
 				"refer": [
 					"plus/payment.html",
@@ -1560,7 +1563,10 @@
 					"epc/applyList.html",
 					"static/js/config.js",
 					"epc/leaveList.html",
-					"index.html"
+					"index.html",
+					"js/epcTool.js",
+					"js/config.js",
+					"static/js/angular.js"
 				],
 				"refer": [
 					"epc/phoneList.html",
@@ -1776,7 +1782,21 @@
 			},
 			"epc/data-list/data-list.html": {
 				"resources": [
-					"static/fonts/mui.ttf"
+					"static/fonts/mui.ttf",
+					"static/js/mui.picker.min.js",
+					"static/css/mui.picker.min.css",
+					"js/epcUtil.js",
+					"static/js/angular.js",
+					"static/js/ydui.flexible.js",
+					"static/js/mui.min.js",
+					"js/epcTool.js",
+					"static/js/ydui.js",
+					"static/fontClass/iconfont.css",
+					"static/css/ydui.css",
+					"static/css/mui.min.css",
+					"static/js/immersed.js",
+					"static/js/jquery2.2.1.min.js",
+					"js/config.js"
 				],
 				"refer": [
 					"epc/home.html",
@@ -1787,7 +1807,21 @@
 			"epc/tab/tab.html": {
 				"resources": [
 					"epc/sub-list/sub-list.html",
-					"epc/form/form.html"
+					"epc/form/form.html",
+					"static/js/mui.picker.min.js",
+					"static/css/mui.picker.min.css",
+					"js/epcUtil.js",
+					"static/js/angular.js",
+					"static/js/ydui.flexible.js",
+					"static/js/mui.min.js",
+					"js/epcTool.js",
+					"static/js/ydui.js",
+					"static/fontClass/iconfont.css",
+					"static/css/ydui.css",
+					"static/css/mui.min.css",
+					"static/js/immersed.js",
+					"static/js/jquery2.2.1.min.js",
+					"js/config.js"
 				],
 				"refer": [
 					"epc/data-list/data-list.html"

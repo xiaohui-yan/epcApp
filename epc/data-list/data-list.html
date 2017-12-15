@@ -10,14 +10,9 @@
 	<link rel="stylesheet" href="../../static/css/mui.min.css">
 	<link rel="stylesheet" type="text/css" href="../../static/css/mui.picker.min.css" />
 	<script src="../../static/js/ydui.flexible.js"></script>
-	<style>
-		.mui-media-body{
-			font-size:13px;
-			color:#0062CC
-		}
-	</style>
+	<script src="../../static/js/angular.js"></script>
 </head>
-<body style="background:#fff">
+<body style="background:#fff" ng-App = 'epcApp' ng-controller = 'dataListCtrl'>
 		<div style="display:none;">
 			<span id='page'></span>
 			<span id='total'></span>
@@ -37,9 +32,9 @@
 				<div class="mui-slider-handle" onclick='window.viewForm(this)'>
 					<div class="mui-table-cell">
 						<div class="mui-media-object mui-pull-left">
-		            		<i  class='iconfont' style='color:#0062CC;font-size:40px'></i>
+		            		<i  class='iconfont' style='color:{{theme.color}};font-size:40px'></i>
 			            </div>
-			            <div class="mui-media-body">
+			            <div class="mui-media-body" style='color:{{theme.color}};font-size:14px;'>
 			                <span class='cell1'></span>
 			                <span class='cell2'></span>
 			                <p class='mui-ellipsis'>
@@ -65,6 +60,17 @@
 		var util = window.YDUI.util;
 		var dialog = window.YDUI.dialog;
 		var currType = '';
+		/**
+		 * 
+		 */
+		angular.module('epcApp',[]).controller('dataListCtrl',['$scope',function($scope){
+			epc.theme.forEach(function(theme){
+				if(theme.use){
+					$scope.theme = theme;return false;
+				}
+			});
+		}]);
+		
 		var webView = JSON.parse(localStorage.getItem("webView"));
 		if( webView != '' && typeof webView != 'undefined'){
 			currType = webView.type;

@@ -2,6 +2,15 @@ window.epc = {
 	//root:'http://emp.epc-china.com',
 	//root:'http://192.168.0.218',
 	root:'http://192.168.0.153:8080',
+	theme:[{
+		color:'#D74B28',
+		background:'#D74B28',
+		use:true
+	},{
+		color:'#0062CC',
+		background:'#0062CC',
+		use:false
+	}],
 	workHours:{//工时
 		title:'我的工时',
 		btn:{

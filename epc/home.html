@@ -14,7 +14,7 @@
 	<style>
 		.mui-media-body{
 			font-size:13px;
-			color:#0062CC
+			color:#D74B28
 		}
 		.m-grids-4 .grids-item:not(:nth-child(4n)):before{
 		    content: none;
@@ -27,7 +27,7 @@
 		}
 	</style>
 </head>
-<body style="background:#fff">
+<body style="background:#fff" ng-App = 'epcApp' ng-controller = 'homeCtrl'>
 	<section class="g-flexview">
 	    <div class="mui-content">
 	    	<div class="m-slider" id="J_Slider">
@@ -58,55 +58,55 @@
 			<div class="m-grids-4">
 	            <a class="grids-item" onclick="epcTool.clicked('data-list/data-list.html',epcTool.random(true),'我的工时',{type:'workHours'});"> 
 	                <div class="grids-icon">
-	                    <i class="iconfont icon-shi" style='font-size:34px'></i>
+	                    <i class="iconfont icon-shi" style='font-size:34px;color:{{theme.color}}'></i>
 	                </div>
 	                <div class="grids-txt">工时</div>
 	            </a>
 	            <a class="grids-item" onclick="epcTool.clicked('data-list/data-list.html',epcTool.random(true),'请假申请',{type:'leave'});">
 	                <div class="grids-icon">
-	                    <i class="iconfont icon-jia" style='font-size:30px;'></i>
+	                    <i class="iconfont icon-jia" style='font-size:30px;color:{{theme.color}}'></i>
 	                </div>
 	                <div class="grids-txt">请假</div>
 	            </a>
 	            <a class="grids-item" onclick="epcTool.clicked('overTimeList.html',epcTool.random(true),'加班申请');">
 	                <div class="grids-icon">
-	                    <i class="iconfont icon-jiaban" style='font-size:30px;'></i>
+	                    <i class="iconfont icon-jiaban" style='font-size:30px;color:{{theme.color}}'></i>
 	                </div>
 	                <div class="grids-txt">加班</div>
 	            </a>
 	            <a class="grids-item" href="">
 	                <div class="grids-icon">
-	                    <i class="iconfont icon-chucha" style='font-size:30px;color:#e2e2e2'></i>
+	                    <i class="iconfont icon-chucha" style='font-size:30px;color:{{theme.color}}'></i>
 	                </div>
 	                <div class="grids-txt">出差</div>
 	            </a>
 	            <a class="grids-item" href="">
 	                <div class="grids-icon">
-	                    <i class="iconfont icon-kaoqindaqia" style='font-size:30px;color:#e2e2e2'></i>
+	                    <i class="iconfont icon-kaoqindaqia" style='font-size:30px;color:{{theme.color}}'></i>
 	                </div>
 	                <div class="grids-txt">考勤</div>
 	            </a>
 	            <a class="grids-item" href="">
 	                <div class="grids-icon">
-	                    <i class="iconfont icon-3richeng" style='font-size:30px;color:#e2e2e2'></i>
+	                    <i class="iconfont icon-3richeng" style='font-size:30px;color:{{theme.color}}'></i>
 	                </div>
 	                <div class="grids-txt">他人日程</div>
 	            </a>
 	            <a class="grids-item" href="">
 	                <div class="grids-icon">
-	                    <i class="iconfont icon-3richeng" style='font-size:30px;color:#e2e2e2'></i>
+	                    <i class="iconfont icon-3richeng" style='font-size:30px;color:{{theme.color}}'></i>
 	                </div>
 	                <div class="grids-txt">我的日程</div>
 	            </a>
 	            <a class="grids-item" onclick="epc.clicked('phoneList.html','234232','通讯录');">
 	                <div class="grids-icon">
-	                    <i class="iconfont icon-tongxunlu" style='font-size:30px;'></i>
+	                    <i class="iconfont icon-tongxunlu" style='font-size:30px;color:{{theme.color}}'></i>
 	                </div>
 	                <div class="grids-txt">通讯录</div>
 	            </a>
 	            <a class="grids-item" onclick="epcTool.clicked('data-list/data-list.html',epcTool.random(true),'我的待办',{type:'task'});"> 
 	                <div class="grids-icon">
-	                    <i class="iconfont icon-daiban" style='font-size:30px'></i>
+	                    <i class="iconfont icon-daiban" style='font-size:30px;color:{{theme.color}}'></i>
 	                    <sup>
 	                    	<span class="badge badge-danger" style='display:none' id='records'></span>
 	                    </sup>
@@ -115,7 +115,7 @@
 	            </a>
 	            <a class="grids-item" onclick="window.quit()"> 
 	                <div class="grids-icon">
-	                    <i class="iconfont icon-tuichu" style='font-size:30px'></i>
+	                    <i class="iconfont icon-tuichu" style='font-size:30px;color:{{theme.color}}'></i> 
 	                </div>
 	                <div class="grids-txt">退出</div>
 	            </a>
@@ -127,12 +127,24 @@
 	<script src="../static/js/mui.min.js"></script>
 	<script src="../static/js/ydui.js"></script> 
 	<script type="text/javascript" src="../static/js/immersed.js" ></script>
+	<script src="../static/js/angular.js"></script> 
 	<script type="text/javascript"> 
 		var util = window.YDUI.util;
 		if(util.getQueryString("taskCount") != ''){
 			$('#records').html(util.getQueryString("taskCount")).show();
 		}
 		var dialog = window.YDUI.dialog;
+		/**
+		 * 
+		 */
+		angular.module('epcApp',[]).controller('homeCtrl',['$scope',function($scope){
+			epc.theme.forEach(function(theme){
+				if(theme.use){
+					$scope.theme = theme;return false;
+				}
+			});
+		}]);
+		
 		$('#J_Slider').slider({
 	        speed: 200, 
 	        autoplay: 2000, 
