@@ -31,9 +31,9 @@
 		        <div class="cell-right" ng-if='field.type == "radio" '>
 					 <div class="m-cell" style='margin-bottom:0px'>
 					    <label class="cell-item" ng-repeat = 'radio in field.value'>
-					        <span class="cell-left">{{radio.text}}</span>
 					        <label class="cell-right">
-					            <input type="radio" name="{{field.name}}" value='{{radio.id}}' ng-checked = '{{radio.checked}}'/>
+					        	<span class="cell-left">{{radio.text}}</span>
+					            <input type="radio" name="{{field.name}}" value='{{radio.id}}' checked = '{{radio.checked}}'/>
 					            <i class="cell-radio-icon"></i>
 					        </label>
 					    </label>

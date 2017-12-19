@@ -7,51 +7,57 @@ window.epcUtil = {
 	},
 	//初始化加载数据
 	renderStartFlow:function(formtemp,tabList){
+		var startflow = {};
 		var json = {};
-		
+		var data = {};
 		tabList.forEach(function(value){
 			if(value.active == true){
-					mui.ajax(epc.root+'/extension/extensionAction.action',{
-						data:{
-							extensionid:'com.epc.epcfoundation.extensions.ui.standardflow',
-							functionpointid:value.action.functionpointid,
-							componentid:formtemp.componentid,
-							formname:formtemp.formname,
-							functiongroupid:formtemp.functiongroupid,
-							actionextension:formtemp.actionextension,
-							selrowid:formtemp.selrowid,
-							ajaxtype:'post', 
-						},
-						type:'get',//HTTP请求类型
-						dataType:'html',
-						async: false,
-						timeout:10000,//超时时间设置为10秒；
-						success:function(data){
-							var jsons = $(data).find('#jsondata').html();
-							if(typeof jsons == 'undefined'){
-								dialog.toast('读取数据异常！', 'error', 1000);
-							}
-							try{
-								json = JSON.parse($.trim(jsons));//eval("(" + jsons + ")");//JSON.parse($.trim(json));//获取json数据
-								json.formname = formtemp.formname;
-							}catch(e){
-								console.log(e);
-							}
-						},
-						error:function(xhr,type,errorThrown){
-							//异常处理；
-							dialog.toast('网络异常！', 'error', 1000);
+				data = {
+						extensionid:'com.epc.epcfoundation.extensions.ui.standardflow',
+						functionpointid:value.action.functionpointid,
+						componentid:formtemp.componentid,
+						formname:formtemp.formname,
+						functiongroupid:formtemp.functiongroupid,
+						actionextension:formtemp.actionextension,
+						buttonid:formtemp.buttonid,
+						selrowid:formtemp.selrowid,
+						ajaxtype:'post', 
+				};
+				mui.ajax(epc.root+'/extension/extensionAction.action',{
+					data:data,
+					type:'get',//HTTP请求类型
+					dataType:'html',
+					async: false,
+					timeout:10000,//超时时间设置为10秒；
+					success:function(data){
+						var jsons = $(data).find('#jsondata').html();
+						if(typeof jsons == 'undefined'){
+							dialog.toast('读取数据异常！', 'error', 1000);
 						}
+						try{
+							json = JSON.parse($.trim(jsons));//eval("(" + jsons + ")");//JSON.parse($.trim(json));//获取json数据
+							json.formname = formtemp.formname;
+						}catch(e){
+							console.log(e);
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						//异常处理；
+						dialog.toast('网络异常！', 'error', 1000);
+					}
 				});
 			}
 		});
-		return json;
+		startflow.json = json;
+		startflow.data = data;
+		return startflow;
 	},
 	//加载表单
 	renderForm:function(point,mainformid,formbtn,parms){
 		var fields = {};
 		var json = {};
 		var objArr = [];
+		var sublist = [];
 		var btnArr = epc[point].btn[formbtn].btn;//获取配置按钮信息
 		parms.extensionid='com.epc.epcfoundation.extensions.ui.form2';
 		mui.ajax(epc.root+'/extension/extensionAction.action',{
@@ -73,6 +79,20 @@ window.epcUtil = {
 				});
 				var formelement = el.find('.formelement');//其次便利所有的表单字段显示
 				formelement.each(function(){
+					//过滤子表
+					if($(this).attr("subgridname")!=null&&$(this).attr("subgridname")!=''&&$(this).attr("subgridname")!='undefined'){
+						
+						var sub = {
+							title:$(this).find('.text').text(),
+							action:{
+								subgridname:$(this).attr("subgridname"),
+							}
+						};
+						sublist.push(sub);
+					}
+					
+					
+					
 					//过滤字表
 					if($(this).attr("uitype") == "INNERSUBGRID")return;
 					var obj = {};
@@ -137,9 +157,11 @@ window.epcUtil = {
 				dialog.toast('读取异常！', 'error', 1000);
 			}
 		});
+		alert(JSON.stringify(sublist));
 		fields.field = objArr;
 		fields.json = json;
 		fields.btns = btnArr;
+		fields.sublist = sublist;
 		return fields;
 	},
 	//加载子表
@@ -240,7 +262,6 @@ window.epcUtil = {
 				//开始解析dom数据
             	dialog.loading.close();
             	console.log(data);
-            	//{"status":"END","alertMsg":"操作成功","ms":750}
 				dialog.toast('提交完毕！', 'success', 1000);
 				setTimeout(function(){
 					epcTool.clicked('../data-list/data-list.html',epcTool.random(true),epc[point].title,{type:point});
@@ -254,32 +275,82 @@ window.epcUtil = {
 		});
 	},
 	//提交待办
-	submitTaskForm:function(dialog,point,mainformid,json){
-		console.log($('#form').serialize());
+	submitTaskForm:function(dialog,point,mainformid,json,submitdata){
+		submitdata._projectid = -1;
+		submitdata.btnid 		= 'btn_workflow_Submit';
+		submitdata.buttonname = 'SaveAndClose';
+		submitdata.buttonid   = 'btn_workflow_Submit';
+		console.log("@@@@@@@@@@@  "+$('#form').serialize());
 		mui.ajax(epc.root+'/extension/extensionAction.action?'+$('#form').serialize(),{
 			data:{
-				extensionid:'com.epc.epcfoundation.extensions.ui.standardflow',
-				buttonid:'btn_workflow_Submit',
-				_projectid:-1
+				extensionid:'com.epc.epcfoundation.extensions.ui.form2',
+				_projectid :-1,
+				buttonid  :'btn_workflow_Submit',
 			},
 			type:'post',//HTTP请求类型
 			dataType:'html',
-			timeout:12000,//超时时间设置为10秒
+			timeout:6000,//超时时间设置为10秒
 			success:function(data){
-				//开始解析dom数据
-            	dialog.loading.close();
-            	console.log(data);
-            	//{"status":"END","alertMsg":"操作成功","ms":750}
-				dialog.toast('提交完毕！', 'success', 1000);
-				setTimeout(function(){
-					epcTool.clicked('../data-list/data-list.html',epcTool.random(true),epc[point].title,{type:point});
-				},500)
-			},
+				var el = $(data);
+				dialog.loading.close();
+				if(el.find('#message').length > 0){
+					dialog.toast(el.find('#message').html(), 'error', 1000);
+				}else{
+					var _globalnames = $('#form').find("[name='globalnames']").val(),data = {};
+					if(($.trim(_globalnames)).length>0)
+					{
+						var namesArr=_globalnames.split(",");
+						for(var namei=0;namei<namesArr.length;namei++)
+						{
+							var _gloreg=("name="+namesArr[namei]);
+							var $glodom= $('#form').find("input["+_gloreg+"],select["+_gloreg+"],textarea["+_gloreg+"]");
+							if($glodom.length>0 && $glodom.eq(0).attr("type")=="radio")
+							{
+								for(var k=0;k<$glodom.length;k++)
+								{
+									if(!$glodom[k].checked) continue;
+									$glodom=$glodom.eq(k);
+									break;
+								}
+							}
+							var gk=namesArr[namei];var gv=$glodom.val();
+							var gjsonstr="{\""+gk+"\":\""+gv+"\"}";
+							var gjson=eval("("+gjsonstr+")");
+							if($glodom.length>0)data=$.extend(data,gjson);
+							else window.status="[WARNING] global_dom_exception";
+						}
+					}
+					data = $.extend(submitdata,data);
+					alert(JSON.stringify(data));
+					mui.ajax(epc.root+'/extension/extensionAction.action',{
+						data:data,
+						type:'post',//HTTP请求类型
+						dataType:'html',
+						timeout:12000,//超时时间设置为10秒
+						success:function(data){
+							//开始解析dom数据
+			            	dialog.loading.close();
+							dialog.toast('提交完毕！', 'success', 1000);
+							setTimeout(function(){
+								epcTool.clicked('../data-list/data-list.html',epcTool.random(true),epc[point].title,{type:point});
+							},500)
+						},
+						error:function(xhr,type,errorThrown){
+							//异常处理；
+							dialog.loading.close(); 
+							dialog.toast('流程提交失败！', 'error', 1000);
+						}
+					});
+				}
+			}, 
 			error:function(xhr,type,errorThrown){
-				//异常处理；
 				dialog.loading.close(); 
-				dialog.toast('流程提交失败！', 'error', 1000);
+				dialog.toast('保存数据失败！', 'error', 1000);
 			}
 		});
+		
+		
+		
+	
 	}
 }

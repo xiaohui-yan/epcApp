@@ -179,6 +179,7 @@ window.epcTool = {
 							componentid:$(this).attr("p:componentid"),
 							actionextension:$(this).attr("p:actionextension"),
 							functiongroupid:$(this).attr("functiongroupid"),
+							buttonid:$(this).attr("p:buttonid"),
 							selrowid:selrowid
 						});
 					});

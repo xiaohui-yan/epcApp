@@ -61,7 +61,7 @@
 			$scope.tabs = tablelist;
 		}]).controller('formCtrl',['$scope','$rootScope',function($scope,$rootScope){
 			$rootScope.parms = epcUtil.renderStartFlow(formtemp,tablelist);
-			var obj = epcUtil.renderForm(currType,mainformid,formbtn,$rootScope.parms);
+			var obj = epcUtil.renderForm(currType,mainformid,formbtn,$rootScope.parms.json);
 			$scope.fields = obj.field;
 			$scope.btns   = obj.btns;
 			$scope.fns = {
@@ -75,7 +75,7 @@
 					epcUtil.submitForm(dialog,currType,mainformid,obj.json);
 				},
 				submit_task_fn:function(){//task 提交
-					epcUtil.submitTaskForm(dialog,currType,mainformid,obj.json);
+					epcUtil.submitTaskForm(dialog,currType,mainformid,obj.json,$rootScope.parms.data);
 				}
 			} 
 			//添加渲染完毕的回调
