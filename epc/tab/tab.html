@@ -57,11 +57,34 @@
 		}
 	var yduiUtil = window.YDUI.util;	
 	var app = angular.module('epcApp',[])
-		.controller('tabsCtrl',['$scope',function($scope){			
-			$scope.tabs = tablelist;
-		}]).controller('formCtrl',['$scope','$rootScope',function($scope,$rootScope){
+		.controller('tabsCtrl',['$scope','$rootScope',function($scope,$rootScope){	
 			$rootScope.parms = epcUtil.renderStartFlow(formtemp,tablelist);
 			var obj = epcUtil.renderForm(currType,mainformid,formbtn,$rootScope.parms.json);
+			$rootScope.sublist = obj.sublist;
+			var data = [];
+			data.push(tablelist[0]);
+			$.each(obj.sublist,function(i,value){
+				
+				var  _data = {};
+				_data = {
+					title:value.title,
+					active:false,
+					show:true,
+					tempUrl:'../sub-list/sub-list.html',
+					action:{
+						extensionid:'com.epc.epcfoundation.extensions.ui.grid',
+						functionpointid:$rootScope.parms.json.functionpointid,
+						subgridname:value.action.subgridname,
+					},
+					grid:[1,2,3]
+				};
+				data.push(_data);
+			});
+			$scope.tabs = data;
+		}])
+		.controller('formCtrl',['$scope','$rootScope',function($scope,$rootScope){
+			var obj = epcUtil.renderForm(currType,mainformid,formbtn,$rootScope.parms.json);
+			$rootScope.sublist = obj.sublist;
 			$scope.fields = obj.field;
 			$scope.btns   = obj.btns;
 			$scope.fns = {
@@ -117,8 +140,17 @@
 					});
 				})(mui);
 			});
-		}]).controller('subListCtrl',['$scope','$rootScope',function($scope,$rootScope){
-			$scope.grids = epcUtil.renderSubList(dialog,currType,mainformid,$rootScope.parms);
+		}])
+		.controller('subListCtrl',['$scope','$rootScope',function($scope,$rootScope){
+			
+			
+			var subgridname = {"subgridname":$scope.tab.action.subgridname};
+			var _json = $rootScope.parms.json;
+			$.extend(_json,subgridname);
+			//console.log("sublist"+JSON.stringify(_json));
+			
+			$scope.grids = epcUtil.renderSubList(dialog,currType,mainformid,_json);
+			alert(JSON.stringify($scope.grids));
 		}]).directive('onFinishRender',['$timeout', '$parse', function ($timeout, $parse) {
 		    return {
 		        restrict: 'A',

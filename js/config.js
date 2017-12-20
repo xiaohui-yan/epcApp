@@ -1,6 +1,6 @@
 window.epc = {
 	//root:'http://emp.epc-china.com',
-//	root:'http://192.168.0.219',
+	//root:'http://192.168.0.219',
 	root:'http://192.168.0.153:8080',
 	theme:[{
 		color:'#D74B28',

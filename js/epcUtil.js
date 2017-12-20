@@ -90,9 +90,6 @@ window.epcUtil = {
 						};
 						sublist.push(sub);
 					}
-					
-					
-					
 					//过滤字表
 					if($(this).attr("uitype") == "INNERSUBGRID")return;
 					var obj = {};
@@ -157,7 +154,6 @@ window.epcUtil = {
 				dialog.toast('读取异常！', 'error', 1000);
 			}
 		});
-		alert(JSON.stringify(sublist));
 		fields.field = objArr;
 		fields.json = json;
 		fields.btns = btnArr;
@@ -170,7 +166,7 @@ window.epcUtil = {
 		var data = epc[point].form.tabList[1].action;
 		parms.extensionid = data.extensionid;
 		parms.mainformid = parms.selrowid ;
-		parms.subgridname = data.subgridname;
+		//parms.subgridname = parms.subgridname;
 		parms._projectid = -1;
 		parms.async = false;
 		parms.rows = 999;
@@ -229,7 +225,6 @@ window.epcUtil = {
 			dataType:'html',
 			timeout:6000,//超时时间设置为10秒
 			success:function(data){
-				console.log(data);
 				var el = $(data);
 				dialog.loading.close();
 				if(el.find('#message').length > 0){
@@ -261,7 +256,6 @@ window.epcUtil = {
 			success:function(data){
 				//开始解析dom数据
             	dialog.loading.close();
-            	console.log(data);
 				dialog.toast('提交完毕！', 'success', 1000);
 				setTimeout(function(){
 					epcTool.clicked('../data-list/data-list.html',epcTool.random(true),epc[point].title,{type:point});
@@ -280,7 +274,6 @@ window.epcUtil = {
 		submitdata.btnid 		= 'btn_workflow_Submit';
 		submitdata.buttonname = 'SaveAndClose';
 		submitdata.buttonid   = 'btn_workflow_Submit';
-		console.log("@@@@@@@@@@@  "+$('#form').serialize());
 		mui.ajax(epc.root+'/extension/extensionAction.action?'+$('#form').serialize(),{
 			data:{
 				extensionid:'com.epc.epcfoundation.extensions.ui.form2',
@@ -321,7 +314,6 @@ window.epcUtil = {
 						}
 					}
 					data = $.extend(submitdata,data);
-					alert(JSON.stringify(data));
 					mui.ajax(epc.root+'/extension/extensionAction.action',{
 						data:data,
 						type:'post',//HTTP请求类型
