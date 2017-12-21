@@ -67,8 +67,10 @@ window.epcUtil = {
 			async: false,
 			timeout:6000,//超时时间设置为10秒
 			success:function(data){
+				
 				//开始解析dom数据
 				var el = $(data);
+//				alert("$$$$$$$"+data);
 				el.find('input[type="hidden"]').each(function(){//首先便利所有的hidden表单字段显示
 					var obj = {};
 					obj.type  = 'hidden';	 
@@ -78,6 +80,7 @@ window.epcUtil = {
 					objArr.push(obj);
 				});
 				var formelement = el.find('.formelement');//其次便利所有的表单字段显示
+				
 				formelement.each(function(){
 					//过滤子表
 					if($(this).attr("subgridname")!=null&&$(this).attr("subgridname")!=''&&$(this).attr("subgridname")!='undefined'){
@@ -98,7 +101,7 @@ window.epcUtil = {
 						obj.readonly = 'true';
 					}
 					obj.must  = $(this).find('.must').text(); 
-					if($(this).find('input').length > 0){//input
+					if(!($(this).find('input').attr("type") == "hidden")&&($(this).find('input').length > 0)){//input
 						obj.type = 'text';	
 						obj.name = $(this).find('input').attr("name");
 						obj.value = $(this).find('input').val();
@@ -123,6 +126,7 @@ window.epcUtil = {
 						obj.name = $(this).find('textarea').attr("name");
 					}else if($(this).find('select').length > 0){//select
 						var option = $(this).find('select').html();
+						
 						var name = $(this).find('select').attr("name");
 						var value = $(this).find('select').val();
 						var text = $(this).find('select').find('option:selected').text();
