@@ -119,10 +119,18 @@
 									}, false);
 								}
 							})
+							epc[currType].form.specialMuselectField.forEach(function(obj){
+								if(obj.fieldId == field.name){
+									var showCityPickerButton = document.getElementById(field.id);
+									var data = obj.dataSource();
+									showCityPickerButton.addEventListener('tap', function(event) {
+											epcTool.clicked('../data-list/list-select.html',epcTool.random(true),'请假申请',data);
+									}, false);
+								}
+							})
 						}
 					});
 				});
-				//渲染多选组件
 				//渲染日期组件
 		      	(function($) {
 					var btns = $('.H5_date');

@@ -538,17 +538,7 @@ window.epc = {
 					$('input[name="fformbean_project_id"]').val(items[0].value);
 				}
 			},
-			{
-				fieldId:'_ccnextuser',//组件id
-				layer:{layer:1},
-				dataSource:function(){//扩展组件请求参数
-					return JSON.parse(epcTool.epcUsers());
-				},
-				callback:function(items){
-					$('#_ccnextuser_picker').val(items[0].text);
-					$('input[name="__multiselect__ccnextuser"]').val(items[0].value);
-				}
-			},		
+			
 			{
 				fieldId:'formbean_user01_id',//组件id
 				layer:{layer:1},
@@ -570,7 +560,18 @@ window.epc = {
 					$('input[name="_wfNextUser"]').val(items[0].value);
 				}
 			}],
-			
+			specialMuselectField:[
+			{
+				fieldId:'_ccnextuser',//组件id
+				layer:{layer:1},
+				dataSource:function(){//扩展组件请求参数
+					return JSON.parse(epcTool.epcUsers());
+				},
+				callback:function(items){
+					$('#_ccnextuser_picker').val(items[0].text);
+					$('input[name="__multiselect__ccnextuser"]').val(items[0].value);
+				}
+			},]
 		},
 	},
 }
