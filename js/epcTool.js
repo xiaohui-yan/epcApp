@@ -284,31 +284,59 @@ window.epcTool = {
 	 	*/
 	},
 	pySegSort:function (arr,empty) {
-			     if(!String.prototype.localeCompare)
-			         return null;
-			     var letters = "*ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('');
-			     var zh = "阿八嚓哒妸发旮哈讥咔垃痳拏噢妑七呥扨它穵夕丫帀".split('');
-			     console.log(JSON.stringify(arr));
-			     var segs = [];
-			     var curr;
-			     $.each(letters, function(i){
-			         curr = {letter: this, data:[]};
-			         $.each(arr, function() {
-//			         	alert(this.text);
-			             if((!zh[i-1] || zh[i-1].localeCompare(this.text,"zh") <= 0) && this.text.localeCompare(zh[i],"zh") == -1) {
-			                 curr.data.push(this);
-			             }
-			         });
-			         if(empty || curr.data.length) {
-			             segs.push(curr);
-			             curr.data.sort(function(a,b){
-			                 return a.text.localeCompare(b.text,"zh");
-			             });
-			         }
-			     });
-			     alert(JSON.stringify(segs));
-			     return segs;
-	},
+		
+		    if(!String.prototype.localeCompare)
+		        return null;
+		     
+		    var letters = "*ABCDEFGHJKLMNOPQRSTWXYZ".split('');
+		    var zh = "阿八嚓哒妸发旮哈讥咔垃麻拏噢妑七呥扨它穵夕丫帀".split('');
+		    var segs = [];
+		    var curr;
+		    $.each(letters, function(i,n){
+		        curr = {letter: this, data:[]};
+		        $.each(arr, function(k,v) {
+		            if((!zh[i-1] || zh[i-1].localeCompare(v.text) <= 0) && v.text.localeCompare(zh[i]) == -1) {
+		                curr.data.push(this);
+		            }
+		        });
+		        if(empty || curr.data.length) {
+					//py.push(this);
+		            segs.push(curr);
+		            curr.data.sort(function(a,b){
+		                return a.text.localeCompare(b.text);
+		            });
+		        }
+		    });
+		    return segs;
+		},
+
+
+		
+//			     if(!String.prototype.localeCompare)
+//			         return null;
+//			     var letters = "*ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('');
+//			     var zh = "阿八嚓哒妸发旮哈讥咔垃痳拏噢妑七呥扨它穵夕丫帀".split('');
+//			     console.log(JSON.stringify(arr));
+//			     var segs = [];
+//			     var curr;
+//			     $.each(letters, function(i){
+//			         curr = {letter: this, data:[]};
+//			         $.each(arr, function() {
+////			         	alert(this.text);
+//			             if((!zh[i-1] || zh[i-1].localeCompare(this.text,"zh") <= 0) && this.text.localeCompare(zh[i],"zh") == -1) {
+//			                 curr.data.push(this);
+//			             }
+//			         });
+//			         if(empty || curr.data.length) {
+//			             segs.push(curr);
+//			             curr.data.sort(function(a,b){
+//			                 return a.text.localeCompare(b.text,"zh");
+//			             });
+//			         }
+//			     });
+//			     alert(JSON.stringify(segs));
+//			     return segs;
+//	},
 	random:function(flag){
 		return flag == false ?'999999': Math.random();
 	},

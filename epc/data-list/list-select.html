@@ -66,10 +66,9 @@
 				<div class="mui-indexed-list-inner">
 					<div class="mui-indexed-list-empty-alert">没有数据</div>
 					<ul class="mui-table-view" ng-repeat = 's in selects' on-finish-render>
-						<li data-group="A" class="mui-table-view-divider mui-indexed-list-group">s.letter</li>
-						
-						<li data-value="AKU" data-tags="AKeSu" ng-repeat = 's in selects' class="mui-table-view-cell mui-indexed-list-item mui-checkbox mui-left">
-							<input type="checkbox" />阿克苏机场</li>
+						<li data-group="s.letter" class="mui-table-view-divider mui-indexed-list-group">{{s.letter}}</li>
+						<li data-value="AKU" data-tags="AKeSu" ng-repeat = 'sd in s.data' class="mui-table-view-cell mui-indexed-list-item mui-checkbox mui-left">
+							<input type="checkbox" value="{{sd.value}}"/>{{sd.text}}</li>
 					
 					</ul>
 				</div>
@@ -83,16 +82,7 @@
 
 		<!--<script src="../js/mui.grouplist.testdata.js"></script>-->
 		<script type="text/javascript" charset="utf-8">
-		
-			
-		
-		
-		
-		
 			mui.init();
-			
-			
-			
 			mui.ready(function() {
 				var header = document.querySelector('header.mui-bar');
 				var list = document.getElementById('list');
@@ -132,10 +122,9 @@
 				});
 			});
 			var webView = JSON.parse(localStorage.getItem("webView"));
-			 console.log(JSON.stringify(epcTool.pySegSort(webView)));
 			 var app = angular.module('epcApp',[])
 			.controller('listselect',['$scope','$rootScope',function($scope,$rootScope){	
-				$scope.selects = webView;
+				$scope.selects = epcTool.pySegSort(webView);
 			}])
 		
 		</script>
