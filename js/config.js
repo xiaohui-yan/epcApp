@@ -574,8 +574,9 @@ window.epc = {
 						text +=" "+item.text;
 						value += item.value+",";
 					});
+					value = (value.substring(value.length-1)==',')?value.substring(0,value.length-1):value;
 					$('#_ccnextuser_picker').val(text);
-					$('input[name="__multiselect__ccnextuser"]').val(items[0].value);
+					$('input[name="__multiselect__ccnextuser"]').val(value);
 				}
 			},]
 		},
