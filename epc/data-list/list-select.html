@@ -65,11 +65,13 @@
 				<div class="mui-indexed-list-alert"></div>
 				<div class="mui-indexed-list-inner">
 					<div class="mui-indexed-list-empty-alert">没有数据</div>
-					<ul class="mui-table-view" ng-repeat = 's in selects' on-finish-render>
-						<li data-group="s.letter" class="mui-table-view-divider mui-indexed-list-group">{{s.letter}}</li>
-						<li data-value="AKU" data-tags="AKeSu" ng-repeat = 'sd in s.data' class="mui-table-view-cell mui-indexed-list-item mui-checkbox mui-left">
-							<input type="checkbox" value="{{sd.value}}"/>{{sd.text}}</li>
-					
+					<ul class="mui-table-view"  on-finish-render>
+						<div ng-repeat = 's in selects'>
+							<li data-group="{{s.letter}}" class="mui-table-view-divider mui-indexed-list-group">{{s.letter}}</li>
+							<li data-value="{{sd.value}}" data-tags="{{sd.value}}" ng-repeat = 'sd in s.data' class="mui-table-view-cell mui-indexed-list-item mui-checkbox mui-left">
+								<input type="checkbox" value="{{sd.value}}"/>{{sd.text}}
+							</li>
+						</div>
 					</ul>
 				</div>
 			</div>
@@ -83,6 +85,8 @@
 		<!--<script src="../js/mui.grouplist.testdata.js"></script>-->
 		<script type="text/javascript" charset="utf-8">
 			mui.init();
+			var webView = JSON.parse(localStorage.getItem("webView"));
+
 			mui.ready(function() {
 				var header = document.querySelector('header.mui-bar');
 				var list = document.getElementById('list');
@@ -97,11 +101,22 @@
 					var checkedValues = [];
 					checkboxArray.forEach(function(box) {
 						if (box.checked) {
-							checkedValues.push(box.parentNode.innerText);
+							var data = {
+								text:box.parentNode.innerText,
+								value:box.value
+							};
+							checkedValues.push(data);
 						}
 					});
 					if (checkedValues.length > 0) {
-						mui.alert('你选择了: ' + checkedValues);
+						var opener = plus.webview.currentWebview().opener();
+                   		mui.fire(plus.webview.getWebviewById(opener.id), 'muselect', checkedValues);
+                   		localStorage.setItem('SelectList',JSON.stringify(checkedValues));//存储跳转参数
+                    	mui.back();
+						
+						
+						
+						mui.back();
 					} else {
 						mui.alert('你没选择任何机场');
 					}
@@ -121,9 +136,9 @@
 					}
 				});
 			});
-			var webView = JSON.parse(localStorage.getItem("webView"));
-			 var app = angular.module('epcApp',[])
+			var app = angular.module('epcApp',[])
 			.controller('listselect',['$scope','$rootScope',function($scope,$rootScope){	
+				console.log($rootScope.test);
 				$scope.selects = epcTool.pySegSort(webView);
 			}])
 		

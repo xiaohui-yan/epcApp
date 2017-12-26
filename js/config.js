@@ -568,7 +568,13 @@ window.epc = {
 					return JSON.parse(epcTool.epcUsers());
 				},
 				callback:function(items){
-					$('#_ccnextuser_picker').val(items[0].text);
+					var text = "";
+					var value = "";
+					items.forEach(function(item) {
+						text +=" "+item.text;
+						value += item.value+",";
+					});
+					$('#_ccnextuser_picker').val(text);
 					$('input[name="__multiselect__ccnextuser"]').val(items[0].value);
 				}
 			},]

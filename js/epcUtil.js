@@ -37,6 +37,9 @@ window.epcUtil = {
 						try{
 							json = JSON.parse($.trim(jsons));//eval("(" + jsons + ")");//JSON.parse($.trim(json));//获取json数据
 							json.formname = formtemp.formname;
+							if(!json.selrowid){
+								json.selrowid = formtemp.selrowid;
+							}
 						}catch(e){
 							console.log(e);
 						}
@@ -59,6 +62,8 @@ window.epcUtil = {
 		var objArr = [];
 		var sublist = [];
 		var btnArr = epc[point].btn[formbtn].btn;//获取配置按钮信息
+		console.log(JSON.stringify(parms));
+		parms._projectid = -1;
 		parms.extensionid='com.epc.epcfoundation.extensions.ui.form2';
 		mui.ajax(epc.root+'/extension/extensionAction.action',{
 			data:parms, 
@@ -67,7 +72,6 @@ window.epcUtil = {
 			async: false,
 			timeout:6000,//超时时间设置为10秒
 			success:function(data){
-				
 				//开始解析dom数据
 				var el = $(data);
 //				alert("$$$$$$$"+data);

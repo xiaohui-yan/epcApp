@@ -86,7 +86,7 @@
 			$scope.tabs = data;
 		}])
 		.controller('formCtrl',['$scope','$rootScope',function($scope,$rootScope){
-			
+			$rootScope.test = 333;
 			$scope.fns = {
 				close_fn:function(){  //关闭
 					curWebview.close();
@@ -119,18 +119,26 @@
 									}, false);
 								}
 							})
-							epc[currType].form.specialMuselectField.forEach(function(obj){
-								if(obj.fieldId == field.name){
-									var showCityPickerButton = document.getElementById(field.id);
-									var data = obj.dataSource();
-									showCityPickerButton.addEventListener('tap', function(event) {
-											epcTool.clicked('../data-list/list-select.html',epcTool.random(true),'请假申请',data);
-									}, false);
-								}
-							})
+							if(epc[currType].form.specialMuselectField){
+								epc[currType].form.specialMuselectField.forEach(function(obj){
+									if(obj.fieldId == field.name){
+										var showCityPickerButton = document.getElementById(field.id);
+										var data = obj.dataSource();
+										showCityPickerButton.addEventListener('tap', function(event) {
+											epcTool.clicked('../data-list/list-select.html',epcTool.random(false),'抄送',data);
+										}, false);
+										window.addEventListener('muselect', function(msg) {
+						      				var SelectList = JSON.parse(localStorage.getItem("SelectList"));
+											obj.callback(SelectList);
+						        		});
+													
+									}
+								})
+							}
 						}
 					});
 				});
+			
 				//渲染日期组件
 		      	(function($) {
 					var btns = $('.H5_date');

@@ -195,6 +195,7 @@ window.epcTool = {
 	},
 	showActionSheet :function (bts,values){//显示底部脚本
 		plus.nativeUI.actionSheet({cancel:"取消",buttons:bts},function(e){
+			
 			if(bts[e.index-1].title && (bts[e.index-1].title == '修改')){	
 				editForm(values[e.index-2]);
 			}else if(bts[e.index-1].title == '删除'){
@@ -293,7 +294,7 @@ window.epcTool = {
 		    var segs = [];
 		    var curr;
 		    $.each(letters, function(i,n){
-		        curr = {letter: this, data:[]};
+		        curr = {letter: this.toString(), data:[]};
 		        $.each(arr, function(k,v) {
 		            if((!zh[i-1] || zh[i-1].localeCompare(v.text) <= 0) && v.text.localeCompare(zh[i]) == -1) {
 		                curr.data.push(this);
