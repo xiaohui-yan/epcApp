@@ -206,20 +206,10 @@ window.epcTool = {
 	clicked:function(webviewUrl,webviewId,title,typeObj){//App跳转方法
 		localStorage.setItem('webView',JSON.stringify(typeObj));//存储跳转参数
 		var buttons = [];
-		if(webviewUrl == 'data-list/data-list.html'){
-			buttons = [{
-                color: '#ffffff', //String类型,按钮上文字颜色.可取值:"#RRGGBB"格式字符串,"rgba(R,G,B,A)".默认值为窗口标题栏控件的标题文字颜色.
-                colorPressed: '', //String类型,按下状态按钮文字颜色.String类型,按钮上文字颜色.可取值:"#RRGGBB"格式字符串,"rgba(R,G,B,A)".默认值为color属性值自动调整透明度为0.3.
-                float: 'left', //String类型,按钮在标题栏上的显示位置.right:在标题栏中靠右排列显示.left:在标题栏中靠左侧排列显示(在返回键后). 默认:right.
-                fontWeight: 'normal', //String类型,按钮上文字的粗细.normal:标准字体.bold:加粗字体.默认:normal.
-                fontSize: '14px', //String类型,按钮上文字大小.可取值:字体高度像素值,数字加"px"格式字符串.
-                fontSrc: '', //String类型,按钮上文字使用的字体文件路径.相对路径:相对于当前页面的host位置,如"a.jpg",注意当前页面为网络地址则不支持.绝对路径:如Android平台"/sdcard/logo.png",此类路径通常通过其它5+ API获取的.扩展相对路径URL(RelativeURL):以"_"开头的相对路径,如"_www/a.jpg".本地路径URL:以"file://"开头,后面跟随系统绝对路径.
-                onclick:function(){
-                	epcTool.clicked('home.html',epcTool.random(true),'首页');
-                },
-                text:'返回',
-            }]
+		if(typeObj&&typeObj.type&& typeof typeObj.formbtn == 'undefined'){
+			buttons=epc[typeObj.type].buttons; 
 		}
+		
 		mui.openWindowWithTitle({
 		  	url: webviewUrl,
 		  	id: webviewId,
@@ -229,7 +219,7 @@ window.epcTool = {
 				  	titleText:title,                // 标题栏文字,当不设置此属性时，默认加载当前页面的标题，并自动更新页面的标题
 				  	titleColor:"#fff",             // 字体颜色,颜色值格式为"#RRGGBB",默认值为"#000000"
 				  	titleSize:"17px",                 // 字体大小,默认17px
-				  	backgroundColor:"#D74B28",        // 控件背景颜色,颜色值格式为"#RRGGBB",默认值为"#F7F7F7"
+				  	backgroundColor:epc.theme[0].color,        // 控件背景颜色,颜色值格式为"#RRGGBB",默认值为"#F7F7F7"
 				  	progress:{                        // 标题栏控件的进度条样式
 						color:"#5FB878",                // 进度条颜色,默认值为"#00FF00"  
 						height:"2px"                    // 进度条高度,默认值为"2px"         
@@ -238,6 +228,7 @@ window.epcTool = {
 						color:"#CCCCCC",                // 分割线颜色,默认值为"#CCCCCC"  
 						height:"0px"                    // 分割线高度,默认值为"2px"
 			      	},
+			      	
 			      	buttons:buttons, 
 			    },
 		  	}, 
@@ -246,49 +237,9 @@ window.epcTool = {
 		        title: '加载中...',
 	        }
 		}); 
-		
-		/**
-		 * 
-		 *  
-			mui.openWindowWithTitle( {
-			  	url: webviewUrl,  
-			  	id: webviewId,
-			  	styles: {   
-					statusbar:  {
-			            background: '#000'
-			       	},
-	 		  	}
-			},{
-				id:webviewId+"title",//导航栏ID,默认为title,若不指定将会使用WebviewOptions中指定的 [webviewID+ "_title"] 作为id
-			    height:"50px",//导航栏高度值
-			    backgroundColor:"#000",//导航栏背景色
-			    bottomBorderColor:"#fff",//底部边线颜色
-			    title: {
-			        text:title,//标题文字
-			        position: { 
-			            top:0,
-			            left:0,
-			            width:"100%",
-			            height:"100%"
-			        },
-			        styles: {
-			            color:"#ffffff",
-			            align:"center",
-			            family:"'Helvetica Neue',Helvetica,sans-serif",
-			            size:"17px",
-			            style:"normal",
-			            weight:"normal",
-			        }
-			    },
-			    back:back
-			});
-	 	*/
 	},
 	pySegSort:function (arr,empty) {
-		
-		    if(!String.prototype.localeCompare)
-		        return null;
-		     
+		    if(!String.prototype.localeCompare)return null;
 		    var letters = "*ABCDEFGHJKLMNOPQRSTWXYZ".split('');
 		    var zh = "阿八嚓哒妸发旮哈讥咔垃麻拏噢妑七呥扨它穵夕丫帀".split('');
 		    var segs = [];
@@ -301,7 +252,6 @@ window.epcTool = {
 		            }
 		        });
 		        if(empty || curr.data.length) {
-					//py.push(this);
 		            segs.push(curr);
 		            curr.data.sort(function(a,b){
 		                return a.text.localeCompare(b.text);
@@ -311,33 +261,6 @@ window.epcTool = {
 		    return segs;
 		},
 
-
-		
-//			     if(!String.prototype.localeCompare)
-//			         return null;
-//			     var letters = "*ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('');
-//			     var zh = "阿八嚓哒妸发旮哈讥咔垃痳拏噢妑七呥扨它穵夕丫帀".split('');
-//			     console.log(JSON.stringify(arr));
-//			     var segs = [];
-//			     var curr;
-//			     $.each(letters, function(i){
-//			         curr = {letter: this, data:[]};
-//			         $.each(arr, function() {
-////			         	alert(this.text);
-//			             if((!zh[i-1] || zh[i-1].localeCompare(this.text,"zh") <= 0) && this.text.localeCompare(zh[i],"zh") == -1) {
-//			                 curr.data.push(this);
-//			             }
-//			         });
-//			         if(empty || curr.data.length) {
-//			             segs.push(curr);
-//			             curr.data.sort(function(a,b){
-//			                 return a.text.localeCompare(b.text,"zh");
-//			             });
-//			         }
-//			     });
-//			     alert(JSON.stringify(segs));
-//			     return segs;
-//	},
 	random:function(flag){
 		return flag == false ?'999999': Math.random();
 	},

@@ -17,9 +17,6 @@
 			<span id='page'></span>
 			<span id='total'></span>
 		</div>
-		<div id='add'  style='z-index:999999;position:fixed;top:10px;right:10px;width:30px;height:30px;border-radius:50%;'>
-			
-		</div>
 		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
 			<div class="mui-scroll">
 				<ul class="mui-table-view">
@@ -78,17 +75,7 @@
 		mui.plusReady(function () {
 			loadList(1,8);
 			plus.webview.currentWebview().setStyle({scrollIndicator:'none'});// 隐藏滚动条
-			addPro();
 		});
-		function addPro(){
-			epcTool.loadBtn(currType,'').forEach(function(value){
-				var btn = $('#add');
-				btn.html("<i   class='iconfont icon-tianjia' style='font-size:30px;color:#04BE02'></i>");
-				btn.click(function(){
-					window.newForm(value);
-				});
-			});
-		}
 		function loadList(page,rows){
 			mui.ajax(epc.root+'/extension/extensionAction.action',{
 				data:{

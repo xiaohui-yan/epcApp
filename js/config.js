@@ -1,6 +1,6 @@
 window.epc = {
-	//root:'http://emp.epc-china.com',
-	root:'http://192.168.0.219',
+	root:'http://emp.epc-china.com',
+	//root:'http://192.168.0.219',
 	//root:'http://192.168.0.153:8080',
 	theme:[{
 		color:'#D74B28',
@@ -13,6 +13,32 @@ window.epc = {
 	}],
 	workHours:{//工时
 		title:'我的工时',
+		buttons:[{
+            color: '#ffffff', //String类型,按钮上文字颜色.可取值:"#RRGGBB"格式字符串,"rgba(R,G,B,A)".默认值为窗口标题栏控件的标题文字颜色.
+            colorPressed: '', //String类型,按下状态按钮文字颜色.String类型,按钮上文字颜色.可取值:"#RRGGBB"格式字符串,"rgba(R,G,B,A)".默认值为color属性值自动调整透明度为0.3.
+            float: 'left', //String类型,按钮在标题栏上的显示位置.right:在标题栏中靠右排列显示.left:在标题栏中靠左侧排列显示(在返回键后). 默认:right.
+            fontWeight: 'normal', //String类型,按钮上文字的粗细.normal:标准字体.bold:加粗字体.默认:normal.
+            fontSize: '14px', //String类型,按钮上文字大小.可取值:字体高度像素值,数字加"px"格式字符串.
+            fontSrc: '', //String类型,按钮上文字使用的字体文件路径.相对路径:相对于当前页面的host位置,如"a.jpg",注意当前页面为网络地址则不支持.绝对路径:如Android平台"/sdcard/logo.png",此类路径通常通过其它5+ API获取的.扩展相对路径URL(RelativeURL):以"_"开头的相对路径,如"_www/a.jpg".本地路径URL:以"file://"开头,后面跟随系统绝对路径.
+            onclick:function(){
+            	epcTool.clicked('home.html',epcTool.random(true),'首页');
+            },
+            text:'返回',
+        },{
+            color: '#ffffff', //String类型,按钮上文字颜色.可取值:"#RRGGBB"格式字符串,"rgba(R,G,B,A)".默认值为窗口标题栏控件的标题文字颜色.
+            colorPressed: '', //String类型,按下状态按钮文字颜色.String类型,按钮上文字颜色.可取值:"#RRGGBB"格式字符串,"rgba(R,G,B,A)".默认值为color属性值自动调整透明度为0.3.
+            float: 'right', //String类型,按钮在标题栏上的显示位置.right:在标题栏中靠右排列显示.left:在标题栏中靠左侧排列显示(在返回键后). 默认:right.
+            fontWeight: 'normal', //String类型,按钮上文字的粗细.normal:标准字体.bold:加粗字体.默认:normal.
+            fontSize: '14px', //String类型,按钮上文字大小.可取值:字体高度像素值,数字加"px"格式字符串.
+            fontSrc: '', //String类型,按钮上文字使用的字体文件路径.相对路径:相对于当前页面的host位置,如"a.jpg",注意当前页面为网络地址则不支持.绝对路径:如Android平台"/sdcard/logo.png",此类路径通常通过其它5+ API获取的.扩展相对路径URL(RelativeURL):以"_"开头的相对路径,如"_www/a.jpg".本地路径URL:以"file://"开头,后面跟随系统绝对路径.
+            onclick:function(){
+            	
+            	epcTool.clicked('tab/tab.html',epcTool.random(true),epc['workHours'].btn.new.title,{type:'workHours',formbtn:'new',formtemp:epcTool.loadBtn('workHours','')[0]});
+
+            	//epcTool.clicked('/tab/tab.html',epcTool.random(true),'新建工时',{type:'workHours',formbtn:'new',formtemp:{"btnTitle":"新建","formname":"New","functiongroupid":"4028809a4153ceb0014153d300250002","buttonid":"New","selrowid":""} });; 
+            },
+            text:'新建',
+        }],
 		btn:{
 			new:{
 				title:'新建工时',
@@ -88,6 +114,31 @@ window.epc = {
 	
 	leave:{//请假
 		title:'请假申请',
+		buttons:[{
+            color: '#ffffff', //String类型,按钮上文字颜色.可取值:"#RRGGBB"格式字符串,"rgba(R,G,B,A)".默认值为窗口标题栏控件的标题文字颜色.
+            colorPressed: '', //String类型,按下状态按钮文字颜色.String类型,按钮上文字颜色.可取值:"#RRGGBB"格式字符串,"rgba(R,G,B,A)".默认值为color属性值自动调整透明度为0.3.
+            float: 'left', //String类型,按钮在标题栏上的显示位置.right:在标题栏中靠右排列显示.left:在标题栏中靠左侧排列显示(在返回键后). 默认:right.
+            fontWeight: 'normal', //String类型,按钮上文字的粗细.normal:标准字体.bold:加粗字体.默认:normal.
+            fontSize: '14px', //String类型,按钮上文字大小.可取值:字体高度像素值,数字加"px"格式字符串.
+            fontSrc: '', //String类型,按钮上文字使用的字体文件路径.相对路径:相对于当前页面的host位置,如"a.jpg",注意当前页面为网络地址则不支持.绝对路径:如Android平台"/sdcard/logo.png",此类路径通常通过其它5+ API获取的.扩展相对路径URL(RelativeURL):以"_"开头的相对路径,如"_www/a.jpg".本地路径URL:以"file://"开头,后面跟随系统绝对路径.
+            onclick:function(){
+            	epcTool.clicked('home.html',epcTool.random(true),'首页');
+            },
+            text:'返回',
+        },{
+            color: '#ffffff', //String类型,按钮上文字颜色.可取值:"#RRGGBB"格式字符串,"rgba(R,G,B,A)".默认值为窗口标题栏控件的标题文字颜色.
+            colorPressed: '', //String类型,按下状态按钮文字颜色.String类型,按钮上文字颜色.可取值:"#RRGGBB"格式字符串,"rgba(R,G,B,A)".默认值为color属性值自动调整透明度为0.3.
+            float: 'right', //String类型,按钮在标题栏上的显示位置.right:在标题栏中靠右排列显示.left:在标题栏中靠左侧排列显示(在返回键后). 默认:right.
+            fontWeight: 'normal', //String类型,按钮上文字的粗细.normal:标准字体.bold:加粗字体.默认:normal.
+            fontSize: '14px', //String类型,按钮上文字大小.可取值:字体高度像素值,数字加"px"格式字符串.
+            fontSrc: '', //String类型,按钮上文字使用的字体文件路径.相对路径:相对于当前页面的host位置,如"a.jpg",注意当前页面为网络地址则不支持.绝对路径:如Android平台"/sdcard/logo.png",此类路径通常通过其它5+ API获取的.扩展相对路径URL(RelativeURL):以"_"开头的相对路径,如"_www/a.jpg".本地路径URL:以"file://"开头,后面跟随系统绝对路径.
+            onclick:function(){
+            	
+            	epcTool.clicked('tab/tab.html',epcTool.random(true),epc['leave'].btn.new.title,{type:'leave',formbtn:'new',formtemp:epcTool.loadBtn('leave','')[0]});
+
+            },
+            text:'新建',
+        }],
 		btn:{
 			new:{
 				title:'请假申请',
@@ -173,6 +224,31 @@ window.epc = {
 	overtime:{//加班申请
 		//加班申请
 		title:'加班申请',
+		buttons:[{
+            color: '#ffffff', //String类型,按钮上文字颜色.可取值:"#RRGGBB"格式字符串,"rgba(R,G,B,A)".默认值为窗口标题栏控件的标题文字颜色.
+            colorPressed: '', //String类型,按下状态按钮文字颜色.String类型,按钮上文字颜色.可取值:"#RRGGBB"格式字符串,"rgba(R,G,B,A)".默认值为color属性值自动调整透明度为0.3.
+            float: 'left', //String类型,按钮在标题栏上的显示位置.right:在标题栏中靠右排列显示.left:在标题栏中靠左侧排列显示(在返回键后). 默认:right.
+            fontWeight: 'normal', //String类型,按钮上文字的粗细.normal:标准字体.bold:加粗字体.默认:normal.
+            fontSize: '14px', //String类型,按钮上文字大小.可取值:字体高度像素值,数字加"px"格式字符串.
+            fontSrc: '', //String类型,按钮上文字使用的字体文件路径.相对路径:相对于当前页面的host位置,如"a.jpg",注意当前页面为网络地址则不支持.绝对路径:如Android平台"/sdcard/logo.png",此类路径通常通过其它5+ API获取的.扩展相对路径URL(RelativeURL):以"_"开头的相对路径,如"_www/a.jpg".本地路径URL:以"file://"开头,后面跟随系统绝对路径.
+            onclick:function(){
+            	epcTool.clicked('home.html',epcTool.random(true),'首页');
+            },
+            text:'返回',
+        },{
+            color: '#ffffff', //String类型,按钮上文字颜色.可取值:"#RRGGBB"格式字符串,"rgba(R,G,B,A)".默认值为窗口标题栏控件的标题文字颜色.
+            colorPressed: '', //String类型,按下状态按钮文字颜色.String类型,按钮上文字颜色.可取值:"#RRGGBB"格式字符串,"rgba(R,G,B,A)".默认值为color属性值自动调整透明度为0.3.
+            float: 'right', //String类型,按钮在标题栏上的显示位置.right:在标题栏中靠右排列显示.left:在标题栏中靠左侧排列显示(在返回键后). 默认:right.
+            fontWeight: 'normal', //String类型,按钮上文字的粗细.normal:标准字体.bold:加粗字体.默认:normal.
+            fontSize: '14px', //String类型,按钮上文字大小.可取值:字体高度像素值,数字加"px"格式字符串.
+            fontSrc: '', //String类型,按钮上文字使用的字体文件路径.相对路径:相对于当前页面的host位置,如"a.jpg",注意当前页面为网络地址则不支持.绝对路径:如Android平台"/sdcard/logo.png",此类路径通常通过其它5+ API获取的.扩展相对路径URL(RelativeURL):以"_"开头的相对路径,如"_www/a.jpg".本地路径URL:以"file://"开头,后面跟随系统绝对路径.
+            onclick:function(){
+            	
+            	epcTool.clicked('tab/tab.html',epcTool.random(true),epc['overtime'].btn.new.title,{type:'overtime',formbtn:'new',formtemp:epcTool.loadBtn('overtime','')[0]});
+
+            },
+            text:'新建',
+        }],
 		btn:{
 			new:{
 				title:'加班申请',
@@ -275,6 +351,31 @@ window.epc = {
 	dailyTrip:{
 		//出差申请
 		title:'出差申请',
+		buttons:[{
+            color: '#ffffff', //String类型,按钮上文字颜色.可取值:"#RRGGBB"格式字符串,"rgba(R,G,B,A)".默认值为窗口标题栏控件的标题文字颜色.
+            colorPressed: '', //String类型,按下状态按钮文字颜色.String类型,按钮上文字颜色.可取值:"#RRGGBB"格式字符串,"rgba(R,G,B,A)".默认值为color属性值自动调整透明度为0.3.
+            float: 'left', //String类型,按钮在标题栏上的显示位置.right:在标题栏中靠右排列显示.left:在标题栏中靠左侧排列显示(在返回键后). 默认:right.
+            fontWeight: 'normal', //String类型,按钮上文字的粗细.normal:标准字体.bold:加粗字体.默认:normal.
+            fontSize: '14px', //String类型,按钮上文字大小.可取值:字体高度像素值,数字加"px"格式字符串.
+            fontSrc: '', //String类型,按钮上文字使用的字体文件路径.相对路径:相对于当前页面的host位置,如"a.jpg",注意当前页面为网络地址则不支持.绝对路径:如Android平台"/sdcard/logo.png",此类路径通常通过其它5+ API获取的.扩展相对路径URL(RelativeURL):以"_"开头的相对路径,如"_www/a.jpg".本地路径URL:以"file://"开头,后面跟随系统绝对路径.
+            onclick:function(){
+            	epcTool.clicked('home.html',epcTool.random(true),'首页');
+            },
+            text:'返回',
+        },{
+            color: '#ffffff', //String类型,按钮上文字颜色.可取值:"#RRGGBB"格式字符串,"rgba(R,G,B,A)".默认值为窗口标题栏控件的标题文字颜色.
+            colorPressed: '', //String类型,按下状态按钮文字颜色.String类型,按钮上文字颜色.可取值:"#RRGGBB"格式字符串,"rgba(R,G,B,A)".默认值为color属性值自动调整透明度为0.3.
+            float: 'right', //String类型,按钮在标题栏上的显示位置.right:在标题栏中靠右排列显示.left:在标题栏中靠左侧排列显示(在返回键后). 默认:right.
+            fontWeight: 'normal', //String类型,按钮上文字的粗细.normal:标准字体.bold:加粗字体.默认:normal.
+            fontSize: '14px', //String类型,按钮上文字大小.可取值:字体高度像素值,数字加"px"格式字符串.
+            fontSrc: '', //String类型,按钮上文字使用的字体文件路径.相对路径:相对于当前页面的host位置,如"a.jpg",注意当前页面为网络地址则不支持.绝对路径:如Android平台"/sdcard/logo.png",此类路径通常通过其它5+ API获取的.扩展相对路径URL(RelativeURL):以"_"开头的相对路径,如"_www/a.jpg".本地路径URL:以"file://"开头,后面跟随系统绝对路径.
+            onclick:function(){
+            	
+            	epcTool.clicked('tab/tab.html',epcTool.random(true),epc['dailyTrip'].btn.new.title,{type:'dailyTrip',formbtn:'new',formtemp:epcTool.loadBtn('dailyTrip','')[0]});
+
+            },
+            text:'新建',
+        }],
 		btn:{
 			new:{
 				title:'出差申请',
@@ -380,6 +481,31 @@ window.epc = {
 			
 		//考勤证明
 		title:'考勤证明',
+		buttons:[{
+            color: '#ffffff', //String类型,按钮上文字颜色.可取值:"#RRGGBB"格式字符串,"rgba(R,G,B,A)".默认值为窗口标题栏控件的标题文字颜色.
+            colorPressed: '', //String类型,按下状态按钮文字颜色.String类型,按钮上文字颜色.可取值:"#RRGGBB"格式字符串,"rgba(R,G,B,A)".默认值为color属性值自动调整透明度为0.3.
+            float: 'left', //String类型,按钮在标题栏上的显示位置.right:在标题栏中靠右排列显示.left:在标题栏中靠左侧排列显示(在返回键后). 默认:right.
+            fontWeight: 'normal', //String类型,按钮上文字的粗细.normal:标准字体.bold:加粗字体.默认:normal.
+            fontSize: '14px', //String类型,按钮上文字大小.可取值:字体高度像素值,数字加"px"格式字符串.
+            fontSrc: '', //String类型,按钮上文字使用的字体文件路径.相对路径:相对于当前页面的host位置,如"a.jpg",注意当前页面为网络地址则不支持.绝对路径:如Android平台"/sdcard/logo.png",此类路径通常通过其它5+ API获取的.扩展相对路径URL(RelativeURL):以"_"开头的相对路径,如"_www/a.jpg".本地路径URL:以"file://"开头,后面跟随系统绝对路径.
+            onclick:function(){
+            	epcTool.clicked('home.html',epcTool.random(true),'首页');
+            },
+            text:'返回',
+        },{
+            color: '#ffffff', //String类型,按钮上文字颜色.可取值:"#RRGGBB"格式字符串,"rgba(R,G,B,A)".默认值为窗口标题栏控件的标题文字颜色.
+            colorPressed: '', //String类型,按下状态按钮文字颜色.String类型,按钮上文字颜色.可取值:"#RRGGBB"格式字符串,"rgba(R,G,B,A)".默认值为color属性值自动调整透明度为0.3.
+            float: 'right', //String类型,按钮在标题栏上的显示位置.right:在标题栏中靠右排列显示.left:在标题栏中靠左侧排列显示(在返回键后). 默认:right.
+            fontWeight: 'normal', //String类型,按钮上文字的粗细.normal:标准字体.bold:加粗字体.默认:normal.
+            fontSize: '14px', //String类型,按钮上文字大小.可取值:字体高度像素值,数字加"px"格式字符串.
+            fontSrc: '', //String类型,按钮上文字使用的字体文件路径.相对路径:相对于当前页面的host位置,如"a.jpg",注意当前页面为网络地址则不支持.绝对路径:如Android平台"/sdcard/logo.png",此类路径通常通过其它5+ API获取的.扩展相对路径URL(RelativeURL):以"_"开头的相对路径,如"_www/a.jpg".本地路径URL:以"file://"开头,后面跟随系统绝对路径.
+            onclick:function(){
+            	
+            	epcTool.clicked('tab/tab.html',epcTool.random(true),epc['dailyAttendance'].btn.new.title,{type:'dailyAttendance',formbtn:'new',formtemp:epcTool.loadBtn('dailyAttendance','')[0]});
+
+            },
+            text:'新建',
+        }],
 		btn:{
 			new:{
 				title:'考勤证明',
@@ -485,6 +611,18 @@ window.epc = {
 	
 	task:{//流程
 		title:'待办列表',
+		buttons:[{
+            color: '#ffffff', //String类型,按钮上文字颜色.可取值:"#RRGGBB"格式字符串,"rgba(R,G,B,A)".默认值为窗口标题栏控件的标题文字颜色.
+            colorPressed: '', //String类型,按下状态按钮文字颜色.String类型,按钮上文字颜色.可取值:"#RRGGBB"格式字符串,"rgba(R,G,B,A)".默认值为color属性值自动调整透明度为0.3.
+            float: 'left', //String类型,按钮在标题栏上的显示位置.right:在标题栏中靠右排列显示.left:在标题栏中靠左侧排列显示(在返回键后). 默认:right.
+            fontWeight: 'normal', //String类型,按钮上文字的粗细.normal:标准字体.bold:加粗字体.默认:normal.
+            fontSize: '14px', //String类型,按钮上文字大小.可取值:字体高度像素值,数字加"px"格式字符串.
+            fontSrc: '', //String类型,按钮上文字使用的字体文件路径.相对路径:相对于当前页面的host位置,如"a.jpg",注意当前页面为网络地址则不支持.绝对路径:如Android平台"/sdcard/logo.png",此类路径通常通过其它5+ API获取的.扩展相对路径URL(RelativeURL):以"_"开头的相对路径,如"_www/a.jpg".本地路径URL:以"file://"开头,后面跟随系统绝对路径.
+            onclick:function(){
+            	epcTool.clicked('home.html',epcTool.random(true),'首页');
+            },
+            text:'返回',
+        }],
 		btn:{
 			edit:{
 				title:'待办工作',
